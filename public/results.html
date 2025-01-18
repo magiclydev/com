@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+</head>
+<body>
+    <h1>Thank You!</h1>
+    <p>Your exam has been submitted. Your score is:</p>
+    <h2 id="score"></h2>
+    <script>
+        async function fetchResults() {
+            const response = await fetch('/fetch-results');
+            const { score } = await response.json();
+            document.getElementById('score').textContent = `${score} / 20`;
+        }
+        fetchResults();
+    </script>
+</body>
+</html>
