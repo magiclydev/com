@@ -151,6 +151,18 @@ app.post('/admin/trial-codes', isAuthenticated, isRole('Admin'), async (req, res
     }
 });
 
+app.post('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Error destroying session:', err);
+            return res.status(500).send('Could not log out');
+        }
+        res.clearCookie('connect.sid'); // Clear the session cookie
+        res.status(200).send('Logged out');
+    });
+});
+
+
 app.delete('/admin/trial-codes/:id', isAuthenticated, isRole('Admin'), async (req, res) => {
     const { id } = req.params;
     try {
