@@ -31,6 +31,12 @@ const UserSchema = new mongoose.Schema({
     password: { type: String, required: true },
     isEnabled: { type: Boolean, default: true },
 });
+
+const TrialCodeSchema = new mongoose.Schema({
+    code: { type: String, required: true, unique: true },
+    used: { type: Boolean, default: false },
+});
+
 const TestResultSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     score: { type: Number, required: true },
@@ -38,15 +44,10 @@ const TestResultSchema = new mongoose.Schema({
     notes: { type: String, default: '' },
     isArchived: { type: Boolean, default: false },
 });
-const QuestionSchema = new mongoose.Schema({
-    question: String,
-    options: [String],
-    correctAnswer: String,
-});
 
 const User = mongoose.model('User', UserSchema);
+const TrialCode = mongoose.model('TrialCode', TrialCodeSchema);
 const TestResult = mongoose.model('TestResult', TestResultSchema);
-const Question = mongoose.model('Question', QuestionSchema);
 
 // Middleware for Authentication and Role Check
 function isAuthenticated(req, res, next) {
@@ -70,7 +71,7 @@ app.post('/login', async (req, res) => {
         const user = await User.findOne({ username });
         if (user && await bcrypt.compare(password, user.password)) {
             req.session.user = user;
-            res.status(200).send('Logged in');
+            res.status(200).json({ message: 'Login successful', role: user.role });
         } else {
             res.status(401).send('Invalid credentials');
         }
@@ -79,13 +80,40 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// Get All Users (Super Admin Only)
+// Get All Users
 app.get('/admin/users', isAuthenticated, isRole('Super Admin'), async (req, res) => {
     try {
         const users = await User.find();
         res.status(200).json(users);
     } catch (err) {
         res.status(500).send('Error fetching users');
+    }
+});
+
+// Add New User
+app.post('/admin/users', isAuthenticated, isRole('Super Admin'), async (req, res) => {
+    const { username, role, password } = req.body;
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({ username, role, password: hashedPassword });
+        await newUser.save();
+        res.status(201).send('User created');
+    } catch (err) {
+        res.status(400).send(err.message);
+    }
+});
+
+// Update User Password
+app.patch('/admin/users/:id/password', isAuthenticated, isRole('Super Admin'), async (req, res) => {
+    const { id } = req.params;
+    const { password } = req.body;
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = await User.findByIdAndUpdate(id, { password: hashedPassword }, { new: true });
+        if (!user) return res.status(404).send('User not found');
+        res.status(200).send(`Password updated for user ${user.username}`);
+    } catch (err) {
+        res.status(500).send('Error updating password');
     }
 });
 
@@ -99,6 +127,38 @@ app.patch('/admin/users/:id', isAuthenticated, isRole('Super Admin'), async (req
         res.status(200).send(`User ${user.username} is now ${isEnabled ? 'enabled' : 'disabled'}`);
     } catch (err) {
         res.status(500).send('Error updating user');
+    }
+});
+
+// Trial Code Management
+app.get('/admin/trial-codes', isAuthenticated, isRole('Admin'), async (req, res) => {
+    try {
+        const codes = await TrialCode.find();
+        res.status(200).json(codes);
+    } catch (err) {
+        res.status(500).send('Error fetching trial codes');
+    }
+});
+
+app.post('/admin/trial-codes', isAuthenticated, isRole('Admin'), async (req, res) => {
+    const { code } = req.body;
+    try {
+        const newCode = new TrialCode({ code });
+        await newCode.save();
+        res.status(201).send('Trial code added');
+    } catch (err) {
+        res.status(400).send(err.message);
+    }
+});
+
+app.delete('/admin/trial-codes/:id', isAuthenticated, isRole('Admin'), async (req, res) => {
+    const { id } = req.params;
+    try {
+        const code = await TrialCode.findByIdAndDelete(id);
+        if (!code) return res.status(404).send('Trial code not found');
+        res.status(200).send('Trial code deleted');
+    } catch (err) {
+        res.status(500).send('Error deleting trial code');
     }
 });
 
