@@ -107,6 +107,16 @@ document.getElementById('view-trial-codes').addEventListener('click', async () =
         </p>
     `).join('');
 });
+document.getElementById('logout-button').addEventListener('click', async () => {
+    const response = await fetch('/logout', { method: 'POST' });
+    if (response.ok) {
+        alert('Logged out successfully');
+        window.location.href = '/'; // Redirect to the login page
+    } else {
+        alert('Failed to log out');
+    }
+});
+
 
 // Delete Trial Code
 async function deleteTrialCode(codeId) {
