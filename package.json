@@ -1,10 +1,11 @@
 {
   "name": "magicly-exam-system",
   "version": "1.0.0",
-  "description": "Magicly Exam System for managing users, questions, and exams.",
+  "description": "Magicly Exam System",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "postinstall": "node createAdmin.js"
   },
   "engines": {
     "node": ">=14.x"
@@ -18,13 +19,7 @@
     "mongoose": "^7.2.3",
     "node-fetch": "^3.3.2"
   },
-  "keywords": [
-    "exam",
-    "nodejs",
-    "express",
-    "mongodb",
-    "heroku"
-  ],
+  "keywords": ["exam", "nodejs", "express", "mongodb", "heroku"],
   "author": "Your Name",
   "license": "MIT"
 }
