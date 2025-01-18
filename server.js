@@ -29,19 +29,24 @@ const UserSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
     role: { type: String, required: true, enum: ['Super Admin', 'Admin', 'Manager'] },
     password: { type: String, required: true },
+    isEnabled: { type: Boolean, default: true },
+});
+const TestResultSchema = new mongoose.Schema({
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    score: { type: Number, required: true },
+    testDate: { type: Date, default: Date.now },
+    notes: { type: String, default: '' },
+    isArchived: { type: Boolean, default: false },
 });
 const QuestionSchema = new mongoose.Schema({
     question: String,
     options: [String],
     correctAnswer: String,
 });
-const TrialCodeSchema = new mongoose.Schema({
-    code: { type: String, required: true, unique: true },
-    used: { type: Boolean, default: false },
-});
+
 const User = mongoose.model('User', UserSchema);
+const TestResult = mongoose.model('TestResult', TestResultSchema);
 const Question = mongoose.model('Question', QuestionSchema);
-const TrialCode = mongoose.model('TrialCode', TrialCodeSchema);
 
 // Middleware for Authentication and Role Check
 function isAuthenticated(req, res, next) {
@@ -74,74 +79,64 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// Add Users (Super Admin Only)
-app.post('/add-user', isAuthenticated, isRole('Super Admin'), async (req, res) => {
-    const { username, password, role } = req.body;
+// Get All Users (Super Admin Only)
+app.get('/admin/users', isAuthenticated, isRole('Super Admin'), async (req, res) => {
     try {
-        if (!['Super Admin', 'Admin', 'Manager'].includes(role)) {
-            return res.status(400).send('Invalid role');
-        }
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const user = new User({ username, role, password: hashedPassword });
-        await user.save();
-        res.status(201).send('User added');
+        const users = await User.find();
+        res.status(200).json(users);
     } catch (err) {
-        res.status(400).send(err.message);
+        res.status(500).send('Error fetching users');
     }
 });
 
-// Add Questions (Admin Only)
-app.post('/add-question', isAuthenticated, isRole('Admin'), async (req, res) => {
-    const { question, options, correctAnswer } = req.body;
+// Enable/Disable User
+app.patch('/admin/users/:id', isAuthenticated, isRole('Super Admin'), async (req, res) => {
+    const { id } = req.params;
+    const { isEnabled } = req.body;
     try {
-        const newQuestion = new Question({ question, options, correctAnswer });
-        await newQuestion.save();
-        res.status(201).send('Question added');
+        const user = await User.findByIdAndUpdate(id, { isEnabled }, { new: true });
+        if (!user) return res.status(404).send('User not found');
+        res.status(200).send(`User ${user.username} is now ${isEnabled ? 'enabled' : 'disabled'}`);
     } catch (err) {
-        res.status(400).send(err.message);
+        res.status(500).send('Error updating user');
     }
 });
 
-// Start Exam
-app.post('/start-exam', isAuthenticated, async (req, res) => {
-    const { trialCode } = req.body;
+// Get Test Results
+app.get('/admin/results', isAuthenticated, isRole('Admin'), async (req, res) => {
     try {
-        const code = await TrialCode.findOne({ code: trialCode, used: false });
-        if (!code) return res.status(400).send('Invalid or used trial code');
-
-        code.used = true;
-        await code.save();
-
-        const questions = await Question.aggregate([{ $sample: { size: 20 } }]);
-        res.status(200).json({ questions });
+        const results = await TestResult.find()
+            .populate('userId', 'username')
+            .sort({ testDate: -1 });
+        res.status(200).json(results);
     } catch (err) {
-        res.status(500).send('Server error');
+        res.status(500).send('Error fetching test results');
     }
 });
 
-// Submit Exam
-app.post('/submit-exam', isAuthenticated, async (req, res) => {
-    const { answers } = req.body;
+// Archive/Restore Test Results
+app.patch('/admin/results/:id', isAuthenticated, isRole('Admin'), async (req, res) => {
+    const { id } = req.params;
+    const { isArchived } = req.body;
     try {
-        const questions = await Question.find();
-        const score = answers.reduce((total, answer) => {
-            const question = questions.find(q => q._id.toString() === answer.questionId);
-            return question && question.correctAnswer === answer.answer ? total + 1 : total;
-        }, 0);
-
-        // Discord Webhook
-        const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
-        if (webhookUrl) {
-            await fetch(webhookUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: `User ${req.session.user.username} scored ${score}/20` }),
-            });
-        }
-
-        res.status(200).send(`You scored ${score}/20`);
+        const result = await TestResult.findByIdAndUpdate(id, { isArchived }, { new: true });
+        if (!result) return res.status(404).send('Result not found');
+        res.status(200).send(`Test result is now ${isArchived ? 'archived' : 'restored'}`);
     } catch (err) {
-        res.status(500).send('Server error');
+        res.status(500).send('Error updating test result');
+    }
+});
+
+// Add Notes to Test Results
+app.patch('/admin/results/:id/notes', isAuthenticated, isRole('Admin'), async (req, res) => {
+    const { id } = req.params;
+    const { notes } = req.body;
+    try {
+        const result = await TestResult.findByIdAndUpdate(id, { notes }, { new: true });
+        if (!result) return res.status(404).send('Result not found');
+        res.status(200).send('Notes updated successfully');
+    } catch (err) {
+        res.status(500).send('Error updating notes');
     }
 });
 
