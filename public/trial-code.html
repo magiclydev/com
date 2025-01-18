@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Trial Code</title>
+</head>
+<body>
+    <form id="trial-code-form">
+        <h1>Enter Trial Code</h1>
+        <input type="text" id="trial-code" placeholder="Trial Code" required>
+        <button type="submit">Validate</button>
+        <p id="error-message" style="color: red; display: none;"></p>
+    </form>
+    <script>
+        document.getElementById('trial-code-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const trialCode = document.getElementById('trial-code').value;
+            const response = await fetch('/validate-code', {
+                meth
