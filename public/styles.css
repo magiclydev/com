@@ -1,160 +1,162 @@
 /* General Styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f9;
+    background-color: #f4faff;
     color: #333;
     text-align: center;
+    line-height: 1.6;
 }
 
 header, footer {
-    background-color: #6200ea;
+    background-color: #82cfff; /* Baby blue */
     color: white;
-    padding: 1.5rem;
+    padding: 1.5rem 1rem;
     text-align: center;
 }
 
-header h1 {
+header h1, footer p {
     margin: 0;
-    font-size: 2.5rem;
+    font-size: 1.8rem;
 }
 
 footer p {
     font-size: 0.9rem;
-    margin: 0;
 }
 
-h1, h2 {
-    color: #6200ea;
-}
-
-h1 {
-    font-size: 2rem;
-}
-
-h2 {
-    font-size: 1.5rem;
-}
-
+/* Buttons */
 button {
     padding: 0.7rem 1.5rem;
     font-size: 1rem;
     color: white;
-    background-color: #6200ea;
+    background-color: #82cfff; /* Baby blue */
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin: 1rem 0;
-    transition: background-color 0.3s;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 button:hover {
-    background-color: #4b00c9;
+    background-color: #64b5f6; /* Slightly darker baby blue */
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
 }
 
-p {
-    font-size: 1rem;
-    line-height: 1.6;
+button:disabled {
+    background-color: #d3d3d3;
+    cursor: not-allowed;
 }
 
-/* Form and Inputs */
+/* Forms and Inputs */
 form {
     max-width: 500px;
     margin: 2rem auto;
     background: white;
     padding: 2rem;
     border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-form input {
-    width: 90%;
+form input, form select {
+    width: 100%;
     padding: 0.8rem;
     margin: 1rem 0;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 1rem;
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-form button {
-    width: 100%;
+form input:focus, form select:focus {
+    outline: none;
+    border: 1px solid #82cfff;
+    box-shadow: 0px 0px 6px rgba(130, 207, 255, 0.5);
 }
 
-/* Exam Page Styles */
+/* Container */
 main {
     padding: 1rem;
     max-width: 800px;
     margin: 0 auto;
     background: white;
     border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Exam Page Styles */
 .question-box {
     margin: 2rem 0;
     padding: 1.5rem;
     border: 1px solid #ddd;
     border-radius: 10px;
-    background-color: #fafafa;
+    background-color: #f9f9f9;
     position: relative;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.question-box:hover {
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
 }
 
 .question-box h2 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     margin-bottom: 1rem;
 }
 
+/* Flag Button */
 .flag-button {
     position: absolute;
     top: 15px;
     right: 15px;
     padding: 0.5rem 1rem;
-    background-color: #ff5722;
+    background-color: #ff6f61; /* Coral for flagging */
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .flag-button:hover {
     background-color: #e64a19;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
 }
 
+/* Option Buttons */
 .option-button {
     display: block;
     width: 100%;
     margin: 0.5rem 0;
     padding: 0.7rem;
-    background-color: #e0e0e0;
-    border: none;
+    background-color: #e0f3ff; /* Light blue */
+    border: 1px solid #cce7ff;
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
 }
 
 .option-button:hover {
-    background-color: #d6d6d6;
+    background-color: #d0eaff;
+    border-color: #82cfff;
 }
 
 .option-button.selected {
-    background-color: #6200ea;
+    background-color: #82cfff; /* Baby blue */
     color: white;
-}
-
-/* Navigation Buttons */
-footer button {
-    margin: 0 0.5rem;
-    padding: 0.7rem 1.2rem;
-    font-size: 1.1rem;
+    border-color: #64b5f6;
 }
 
 /* Timer */
 #timer {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #e53935;
+    color: #e53935; /* Red for urgency */
     margin-top: 1rem;
 }
 
@@ -162,8 +164,19 @@ footer button {
 #score {
     font-size: 2rem;
     font-weight: bold;
-    color: #4caf50;
+    color: #4caf50; /* Green for success */
     margin-top: 1rem;
+}
+
+/* Footer Links */
+footer a {
+    color: white;
+    text-decoration: underline;
+    font-size: 0.9rem;
+}
+
+footer a:hover {
+    text-decoration: none;
 }
 
 /* Responsive Styles */
@@ -173,7 +186,7 @@ footer button {
     }
 
     header h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
 
     button {
@@ -186,7 +199,7 @@ footer button {
     }
 
     .flag-button {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
     }
 
     .option-button {
