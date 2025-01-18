@@ -21,7 +21,15 @@ document.getElementById('add-user').addEventListener('submit', async (event) => 
         alert('Error adding user');
     }
 });
-
+document.getElementById('logout-button').addEventListener('click', async () => {
+    const response = await fetch('/logout', { method: 'POST' });
+    if (response.ok) {
+        alert('Logged out successfully');
+        window.location.href = '/'; // Redirect to the login page
+    } else {
+        alert('Failed to log out');
+    }
+});
 // View All Users
 document.getElementById('view-users').addEventListener('click', async () => {
     const response = await fetch('/admin/users', { method: 'GET' });
