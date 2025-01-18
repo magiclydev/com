@@ -1,64 +1,107 @@
+// Add New User
+document.getElementById('add-user').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const username = document.getElementById('new-username').value;
+    const role = document.getElementById('new-role').value;
+    const password = document.getElementById('new-password').value;
+
+    const response = await fetch('/admin/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, role, password }),
+    });
+
+    if (response.ok) {
+        alert('User added successfully');
+        document.getElementById('new-username').value = '';
+        document.getElementById('new-role').value = 'Admin';
+        document.getElementById('new-password').value = '';
+        document.getElementById('view-users').click();
+    } else {
+        alert('Error adding user');
+    }
+});
+
+// View All Users
 document.getElementById('view-users').addEventListener('click', async () => {
     const response = await fetch('/admin/users', { method: 'GET' });
     const users = await response.json();
     const userList = document.getElementById('user-list');
     userList.innerHTML = users.map(user => `
         <p>
-            ${user.username} - ${user.role} - ${user.isEnabled ? 'Enabled' : 'Disabled'}
+            ${user.username} (${user.role}) - ${user.isEnabled ? 'Enabled' : 'Disabled'}
             <button onclick="toggleUser('${user._id}', ${!user.isEnabled})">
                 ${user.isEnabled ? 'Disable' : 'Enable'}
             </button>
+            <button onclick="updatePassword('${user._id}')">Change Password</button>
         </p>
     `).join('');
 });
 
+// Enable/Disable User
 async function toggleUser(userId, isEnabled) {
     await fetch(`/admin/users/${userId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ isEnabled }),
     });
-    alert('User updated successfully');
     document.getElementById('view-users').click(); // Refresh the user list
 }
 
-document.getElementById('view-results').addEventListener('click', async () => {
-    const response = await fetch('/admin/results', { method: 'GET' });
-    const results = await response.json();
-    const resultList = document.getElementById('result-list');
-    resultList.innerHTML = results.map(result => `
+// Change User Password
+async function updatePassword(userId) {
+    const newPassword = prompt('Enter new password:');
+    if (!newPassword) return;
+
+    const response = await fetch(`/admin/users/${userId}/password`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: newPassword }),
+    });
+
+    if (response.ok) {
+        alert('Password updated successfully');
+        document.getElementById('view-users').click();
+    } else {
+        alert('Error updating password');
+    }
+}
+
+// Add New Trial Code
+document.getElementById('add-trial-code').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const code = document.getElementById('trial-code').value;
+
+    const response = await fetch('/admin/trial-codes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code }),
+    });
+
+    if (response.ok) {
+        alert('Trial code added successfully');
+        document.getElementById('trial-code').value = '';
+        document.getElementById('view-trial-codes').click();
+    } else {
+        alert('Error adding trial code');
+    }
+});
+
+// View All Trial Codes
+document.getElementById('view-trial-codes').addEventListener('click', async () => {
+    const response = await fetch('/admin/trial-codes', { method: 'GET' });
+    const codes = await response.json();
+    const trialCodeList = document.getElementById('trial-code-list');
+    trialCodeList.innerHTML = codes.map(code => `
         <p>
-            User: ${result.userId?.username || 'Unknown'}<br>
-            Score: ${result.score}/20<br>
-            Date: ${new Date(result.testDate).toLocaleString()}<br>
-            Notes: ${result.notes || 'None'}<br>
-            Archived: ${result.isArchived ? 'Yes' : 'No'}<br>
-            <button onclick="toggleArchive('${result._id}', ${!result.isArchived})">
-                ${result.isArchived ? 'Restore' : 'Archive'}
-            </button>
-            <button onclick="addNotes('${result._id}')">Add Notes</button>
+            Code: ${code.code} - Used: ${code.used ? 'Yes' : 'No'}
+            <button onclick="deleteTrialCode('${code._id}')">Delete</button>
         </p>
     `).join('');
 });
 
-async function toggleArchive(resultId, isArchived) {
-    await fetch(`/admin/results/${resultId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ isArchived }),
-    });
-    alert('Result updated successfully');
-    document.getElementById('view-results').click(); // Refresh the result list
-}
-
-async function addNotes(resultId) {
-    const notes = prompt('Enter notes:');
-    if (!notes) return;
-    await fetch(`/admin/results/${resultId}/notes`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ notes }),
-    });
-    alert('Notes added successfully');
-    document.getElementById('view-results').click(); // Refresh the result list
+// Delete Trial Code
+async function deleteTrialCode(codeId) {
+    await fetch(`/admin/trial-codes/${codeId}`, { method: 'DELETE' });
+    document.getElementById('view-trial-codes').click(); // Refresh the trial codes list
 }
