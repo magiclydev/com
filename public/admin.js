@@ -1,4 +1,51 @@
 // Utility: Fetch data and populate tables
+
+async function fetchUsers() {
+    try {
+        const response = await fetch('/admin/users');
+        const users = await response.json();
+        const tableBody = document.getElementById('users-table-body');
+
+        tableBody.innerHTML = users.map(user => `
+            <tr>
+                <td>${user.username}</td>
+                <td>${user.role}</td>
+                <td>${user.isEnabled ? 'Enabled' : 'Disabled'}</td>
+                <td>
+                    <button onclick="toggleUser('${user._id}', ${!user.isEnabled})">
+                        ${user.isEnabled ? 'Disable' : 'Enable'}
+                    </button>
+                    <button onclick="updatePassword('${user._id}')">Change Password</button>
+                </td>
+            </tr>
+        `).join('');
+    } catch (error) {
+        console.error('Error fetching users:', error);
+    }
+}
+async function addTrialCode(event) {
+    event.preventDefault(); // Prevent page refresh
+    const trialCode = document.getElementById('trial-code').value;
+
+    try {
+        const response = await fetch('/admin/trial-codes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code: trialCode }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to add trial code');
+        }
+
+        // Clear input and refresh trial codes list
+        document.getElementById('trial-code').value = '';
+        fetchTrialCodes();
+    } catch (error) {
+        console.error('Error adding trial code:', error);
+    }
+}
+
 async function fetchData(url, tableId, mapFn) {
     try {
         const response = await fetch(url);
