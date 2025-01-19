@@ -1,51 +1,4 @@
-// Utility: Fetch data and populate tables
-
-async function fetchUsers() {
-    try {
-        const response = await fetch('/admin/users');
-        const users = await response.json();
-        const tableBody = document.getElementById('users-table-body');
-
-        tableBody.innerHTML = users.map(user => `
-            <tr>
-                <td>${user.username}</td>
-                <td>${user.role}</td>
-                <td>${user.isEnabled ? 'Enabled' : 'Disabled'}</td>
-                <td>
-                    <button onclick="toggleUser('${user._id}', ${!user.isEnabled})">
-                        ${user.isEnabled ? 'Disable' : 'Enable'}
-                    </button>
-                    <button onclick="updatePassword('${user._id}')">Change Password</button>
-                </td>
-            </tr>
-        `).join('');
-    } catch (error) {
-        console.error('Error fetching users:', error);
-    }
-}
-async function addTrialCode(event) {
-    event.preventDefault(); // Prevent page refresh
-    const trialCode = document.getElementById('trial-code').value;
-
-    try {
-        const response = await fetch('/admin/trial-codes', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ code: trialCode }),
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to add trial code');
-        }
-
-        // Clear input and refresh trial codes list
-        document.getElementById('trial-code').value = '';
-        fetchTrialCodes();
-    } catch (error) {
-        console.error('Error adding trial code:', error);
-    }
-}
-
+// Utility: Fetch data and populate tables dynamically
 async function fetchData(url, tableId, mapFn) {
     try {
         const response = await fetch(url);
@@ -56,14 +9,25 @@ async function fetchData(url, tableId, mapFn) {
         console.error(`Error fetching data from ${url}:`, error);
     }
 }
-// Show a specific section and hide the others
+
+// Utility: Show a specific section and hide others
+function showSection(sectionId) {
+    document.querySelectorAll('.section').forEach(section => {
+        section.classList.add('hidden');
+    });
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+        targetSection.classList.remove('hidden');
+    } else {
+        console.error(`Section with ID "${sectionId}" not found.`);
+    }
+}
+
+// Utility: Show a specific subsection and hide others
 function showSubSection(subSectionId) {
-    // Hide all subsections
     document.querySelectorAll('.sub-section').forEach(subSection => {
         subSection.classList.add('hidden');
     });
-
-    // Show the targeted subsection
     const targetSubSection = document.getElementById(subSectionId);
     if (targetSubSection) {
         targetSubSection.classList.remove('hidden');
@@ -72,65 +36,7 @@ function showSubSection(subSectionId) {
     }
 }
 
-function showSection(sectionId) {
-    // Hide all sections
-    document.querySelectorAll('.section').forEach(section => {
-        section.classList.add('hidden');
-    });
-
-    // Show the targeted section
-    const targetSection = document.getElementById(sectionId);
-    if (targetSection) {
-        targetSection.classList.remove('hidden');
-    } else {
-        console.error(`Section with ID "${sectionId}" not found.`);
-    }
-}
-
-// Set the default section (e.g., dashboard) on page load
-window.onload = () => {
-    showSection('dashboard');
-};
-
-function showSection(sectionId) {
-    // Hide all sections
-    document.querySelectorAll('.section').forEach(section => {
-        section.classList.add('hidden');
-    });
-
-    // Show the selected section
-    const targetSection = document.getElementById(sectionId);
-    if (targetSection) {
-        targetSection.classList.remove('hidden');
-    } else {
-        console.error(`Section with ID "${sectionId}" not found.`);
-    }
-}
-
-// Set the default section to display on page load
-window.onload = () => {
-    showSection('dashboard'); // Default to the dashboard section
-};
-
-// Utility: Toggle sections
-function showSection(sectionId) {
-    document.querySelectorAll('.section').forEach(section => {
-        section.classList.add('hidden');
-    });
-    const section = document.getElementById(sectionId);
-    if (section) section.classList.remove('hidden');
-}
-
-// Utility: Toggle subsections
-function showSubSection(subSectionId) {
-    document.querySelectorAll('.sub-section').forEach(subSection => {
-        subSection.classList.add('hidden');
-    });
-    const subSection = document.getElementById(subSectionId);
-    if (subSection) subSection.classList.remove('hidden');
-}
-
-// Fetch and Display Trial Codes
+// Fetch and display trial codes
 async function fetchTrialCodes() {
     await fetchData('/admin/trial-codes', 'trial-codes-table-body', code => `
         <tr>
@@ -143,7 +49,7 @@ async function fetchTrialCodes() {
     `);
 }
 
-// Add a Trial Code
+// Add a trial code
 document.getElementById('add-trial-code-form').addEventListener('submit', async event => {
     event.preventDefault();
     const trialCode = document.getElementById('trial-code').value;
@@ -154,14 +60,14 @@ document.getElementById('add-trial-code-form').addEventListener('submit', async 
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ code: trialCode }),
         });
-        document.getElementById('trial-code').value = ''; // Clear the input
+        document.getElementById('trial-code').value = ''; // Clear input
         fetchTrialCodes();
     } catch (error) {
         console.error('Error adding trial code:', error);
     }
 });
 
-// Delete a Trial Code
+// Delete a trial code
 async function deleteTrialCode(id) {
     try {
         await fetch(`/admin/trial-codes/${id}`, { method: 'DELETE' });
@@ -171,7 +77,7 @@ async function deleteTrialCode(id) {
     }
 }
 
-// Fetch and Display Users
+// Fetch and display users
 async function fetchUsers() {
     await fetchData('/admin/users', 'users-table-body', user => `
         <tr>
@@ -188,7 +94,7 @@ async function fetchUsers() {
     `);
 }
 
-// Add a User
+// Add a user
 document.getElementById('add-user-form').addEventListener('submit', async event => {
     event.preventDefault();
     const username = document.getElementById('new-username').value;
@@ -209,7 +115,7 @@ document.getElementById('add-user-form').addEventListener('submit', async event 
     }
 });
 
-// Toggle User Status
+// Toggle user status
 async function toggleUserStatus(id, isEnabled) {
     try {
         await fetch(`/admin/users/${id}`, {
@@ -223,7 +129,7 @@ async function toggleUserStatus(id, isEnabled) {
     }
 }
 
-// Update User Password
+// Update user password
 async function updateUserPassword(id) {
     const newPassword = prompt('Enter new password:');
     if (!newPassword) return;
@@ -240,7 +146,7 @@ async function updateUserPassword(id) {
     }
 }
 
-// Fetch and Display Questions
+// Fetch and display questions
 async function fetchQuestions() {
     await fetchData('/admin/questions', 'questions-table-body', question => `
         <tr>
@@ -251,7 +157,7 @@ async function fetchQuestions() {
     `);
 }
 
-// Add a Question
+// Add a question
 document.getElementById('add-question-form').addEventListener('submit', async event => {
     event.preventDefault();
     const question = document.getElementById('question').value;
@@ -270,14 +176,14 @@ document.getElementById('add-question-form').addEventListener('submit', async ev
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ question, options, correctAnswer, category }),
         });
-        document.getElementById('add-question-form').reset(); // Clear the form
+        document.getElementById('add-question-form').reset(); // Clear form
         fetchQuestions();
     } catch (error) {
         console.error('Error adding question:', error);
     }
 }
 
-// Initialize and Fetch Data
+// Initialize and fetch data
 function initialize() {
     showSection('dashboard'); // Default section
     fetchTrialCodes();
