@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-const fetch = require('node-fetch');
 require('dotenv').config();
 
 const app = express();
@@ -45,9 +44,17 @@ const TestResultSchema = new mongoose.Schema({
     isArchived: { type: Boolean, default: false },
 });
 
+const QuestionSchema = new mongoose.Schema({
+    question: { type: String, required: true },
+    options: [String],
+    correctAnswer: { type: Number, required: true },
+    category: { type: String, required: true }, // e.g., "Moderation", "ModMail"
+});
+
 const User = mongoose.model('User', UserSchema);
 const TrialCode = mongoose.model('TrialCode', TrialCodeSchema);
 const TestResult = mongoose.model('TestResult', TestResultSchema);
+const Question = mongoose.model('Question', QuestionSchema);
 
 // Middleware for Authentication and Role Check
 function isAuthenticated(req, res, next) {
@@ -80,7 +87,8 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// Get All Users
+// Admin Routes
+// User Management
 app.get('/admin/users', isAuthenticated, isRole('Super Admin'), async (req, res) => {
     try {
         const users = await User.find();
@@ -90,7 +98,6 @@ app.get('/admin/users', isAuthenticated, isRole('Super Admin'), async (req, res)
     }
 });
 
-// Add New User
 app.post('/admin/users', isAuthenticated, isRole('Super Admin'), async (req, res) => {
     const { username, role, password } = req.body;
     try {
@@ -103,7 +110,6 @@ app.post('/admin/users', isAuthenticated, isRole('Super Admin'), async (req, res
     }
 });
 
-// Update User Password
 app.patch('/admin/users/:id/password', isAuthenticated, isRole('Super Admin'), async (req, res) => {
     const { id } = req.params;
     const { password } = req.body;
@@ -117,7 +123,6 @@ app.patch('/admin/users/:id/password', isAuthenticated, isRole('Super Admin'), a
     }
 });
 
-// Enable/Disable User
 app.patch('/admin/users/:id', isAuthenticated, isRole('Super Admin'), async (req, res) => {
     const { id } = req.params;
     const { isEnabled } = req.body;
@@ -151,18 +156,6 @@ app.post('/admin/trial-codes', isAuthenticated, isRole('Admin'), async (req, res
     }
 });
 
-app.post('/logout', (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            console.error('Error destroying session:', err);
-            return res.status(500).send('Could not log out');
-        }
-        res.clearCookie('connect.sid'); // Clear the session cookie
-        res.status(200).send('Logged out');
-    });
-});
-
-
 app.delete('/admin/trial-codes/:id', isAuthenticated, isRole('Admin'), async (req, res) => {
     const { id } = req.params;
     try {
@@ -174,7 +167,31 @@ app.delete('/admin/trial-codes/:id', isAuthenticated, isRole('Admin'), async (re
     }
 });
 
-// Get Test Results
+// Question Management
+app.get('/admin/questions', isAuthenticated, isRole('Admin'), async (req, res) => {
+    try {
+        const questions = await Question.find();
+        res.status(200).json(questions);
+    } catch (err) {
+        res.status(500).send('Error fetching questions');
+    }
+});
+
+app.post('/admin/questions', isAuthenticated, isRole('Admin'), async (req, res) => {
+    const { question, options, correctAnswer, category } = req.body;
+    if (!question || !options || correctAnswer === undefined || !category) {
+        return res.status(400).send('All fields are required.');
+    }
+    try {
+        const newQuestion = new Question({ question, options, correctAnswer, category });
+        await newQuestion.save();
+        res.status(201).send('Question added successfully');
+    } catch (err) {
+        res.status(500).send('Error adding question');
+    }
+});
+
+// Test Results Management
 app.get('/admin/results', isAuthenticated, isRole('Admin'), async (req, res) => {
     try {
         const results = await TestResult.find()
@@ -186,7 +203,6 @@ app.get('/admin/results', isAuthenticated, isRole('Admin'), async (req, res) => 
     }
 });
 
-// Archive/Restore Test Results
 app.patch('/admin/results/:id', isAuthenticated, isRole('Admin'), async (req, res) => {
     const { id } = req.params;
     const { isArchived } = req.body;
@@ -199,7 +215,6 @@ app.patch('/admin/results/:id', isAuthenticated, isRole('Admin'), async (req, re
     }
 });
 
-// Add Notes to Test Results
 app.patch('/admin/results/:id/notes', isAuthenticated, isRole('Admin'), async (req, res) => {
     const { id } = req.params;
     const { notes } = req.body;
@@ -210,6 +225,18 @@ app.patch('/admin/results/:id/notes', isAuthenticated, isRole('Admin'), async (r
     } catch (err) {
         res.status(500).send('Error updating notes');
     }
+});
+
+// Logout
+app.post('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Error destroying session:', err);
+            return res.status(500).send('Could not log out');
+        }
+        res.clearCookie('connect.sid'); // Clear the session cookie
+        res.status(200).send('Logged out');
+    });
 });
 
 // Start Server
