@@ -1,208 +1,193 @@
 /* General Styles */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f6fc; /* Light background */
     color: #333;
-    text-align: center;
     line-height: 1.6;
 }
 
-header, footer {
-    background-color: #4869d4; /* Primary Blue */
+header {
+    background-color: #4869d4; /* Primary blue */
     color: white;
-    padding: 1.5rem 1rem;
+    padding: 1rem 2rem;
     text-align: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-header h1, footer p {
+header h1 {
     margin: 0;
     font-size: 1.8rem;
 }
 
-footer p {
-    font-size: 0.9rem;
-}
-
-/* Buttons */
-button {
-    padding: 0.7rem 1.5rem;
-    font-size: 1rem;
-    color: white;
-    background-color: #4869d4; /* Primary Blue */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 1rem;
-    transition: all 0.3s ease;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-button:hover {
-    background-color: #3b58b0; /* Darker blue on hover */
-    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
-}
-
-button:disabled {
-    background-color: #d3d3d3;
-    cursor: not-allowed;
-}
-
-/* Forms and Inputs */
-form {
-    max-width: 500px;
-    margin: 2rem auto;
-    background: white;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-form input, form select {
-    width: 100%;
-    padding: 0.8rem;
-    margin: 1rem 0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1rem;
-    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-form input:focus, form select:focus {
-    outline: none;
-    border: 1px solid #4869d4; /* Primary Blue */
-    box-shadow: 0px 0px 6px rgba(72, 105, 212, 0.5);
-}
-
-/* Container */
-main {
-    padding: 1rem;
-    max-width: 800px;
-    margin: 0 auto;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Exam Page Styles */
-.question-box {
-    margin: 2rem 0;
-    padding: 1.5rem;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background-color: #f9f9f9;
-    position: relative;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-}
-
-.question-box:hover {
-    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
-}
-
-.question-box h2 {
-    font-size: 1.4rem;
+/* Section Titles */
+h2 {
+    color: #4869d4; /* Primary blue */
+    font-size: 1.5rem;
     margin-bottom: 1rem;
 }
 
-/* Flag Button */
-.flag-button {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    padding: 0.5rem 1rem;
-    background-color: #ff6f61; /* Coral for flagging */
+/* Welcome Section */
+.welcome-section {
+    background-color: #fff;
+    text-align: center;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.welcome-section h2 {
+    margin: 0;
+    font-size: 2rem;
+    color: #333;
+}
+
+/* Forms */
+form {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+form input, form select, form button {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+form input:focus, form select:focus {
+    border-color: #4869d4;
+    box-shadow: 0px 0px 6px rgba(72, 105, 212, 0.5);
+    outline: none;
+}
+
+form button {
+    background-color: #4869d4;
     color: white;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+form button:hover {
+    background-color: #3a57b2;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    background-color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table thead {
+    background-color: #4869d4;
+    color: white;
+}
+
+table th, table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table tr:hover {
+    background-color: #f9f9f9;
+}
+
+table th {
+    font-weight: bold;
+}
+
+table td:last-child {
+    text-align: right;
+}
+
+/* Buttons inside Tables */
+table button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    color: white;
+    background-color: #4869d4;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
 }
 
-.flag-button:hover {
-    background-color: #e64a19;
-    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+table button:hover {
+    background-color: #3a57b2;
 }
 
-/* Option Buttons */
-.option-button {
-    display: block;
-    width: 100%;
-    margin: 0.5rem 0;
-    padding: 0.7rem;
-    background-color: #e8f0ff; /* Light blue for options */
-    border: 1px solid #cbd7f4;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: all 0.3s ease;
+/* Stats Boxes */
+.stats-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
 }
 
-.option-button:hover {
-    background-color: #d5e4ff;
-    border-color: #4869d4; /* Primary Blue */
+.stat-box {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    width: 200px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.option-button.selected {
-    background-color: #4869d4; /* Primary Blue */
-    color: white;
-    border-color: #3b58b0; /* Darker Blue */
+.stat-box h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #4869d4;
 }
 
-/* Timer */
-#timer {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #e53935; /* Red for urgency */
-    margin-top: 1rem;
-}
-
-/* Results Page Styles */
-#score {
+.stat-box p {
     font-size: 2rem;
     font-weight: bold;
-    color: #4caf50; /* Green for success */
-    margin-top: 1rem;
-}
-
-/* Footer Links */
-footer a {
-    color: white;
-    text-decoration: underline;
-    font-size: 0.9rem;
-}
-
-footer a:hover {
-    text-decoration: none;
+    margin: 0;
+    color: #333;
 }
 
 /* Responsive Styles */
 @media (max-width: 768px) {
-    header, footer {
-        padding: 1rem;
-    }
-
     header h1 {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
     }
 
-    button {
-        width: 100%;
-        margin: 0.5rem 0;
-    }
-
-    .question-box {
-        padding: 1rem;
-    }
-
-    .flag-button {
-        font-size: 0.8rem;
-    }
-
-    .option-button {
+    form input, form select, form button {
         font-size: 0.9rem;
+    }
+
+    table th, table td {
+        font-size: 0.9rem;
+    }
+
+    .stats-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .stat-box {
+        width: 100%;
     }
 }
