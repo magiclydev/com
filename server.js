@@ -7,6 +7,21 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+// Get Admin Stats
+app.get('/admin/stats', isAuthenticated, isRole('Admin'), async (req, res) => {
+    try {
+        const currentMonth = new Date().getMonth();
+        const testsTaken = await TestResult.countDocuments({
+            testDate: { $gte: new Date(new Date().setDate(1)) },
+        });
+        const applicationsReceived = await TrialCode.countDocuments({
+            createdAt: { $gte: new Date(new Date().setDate(1)) },
+        });
+        res.json({ testsTaken, applicationsReceived });
+    } catch (err) {
+        res.status(500).send('Error fetching stats');
+    }
+});
 
 // Middleware
 app.use(bodyParser.json());
