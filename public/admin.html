@@ -11,6 +11,11 @@
         <h1>Admin Dashboard</h1>
     </header>
     <main>
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <h2>Welcome, <span id="admin-username">Admin</span>!</h2>
+        </section>
+
         <!-- Trial Code Management -->
         <section>
             <h2>Manage Trial Codes</h2>
@@ -28,7 +33,7 @@
                     </tr>
                 </thead>
                 <tbody id="trial-codes-table-body">
-                    <!-- Trial codes will be dynamically populated -->
+                    <!-- Trial codes dynamically populated -->
                 </tbody>
             </table>
         </section>
@@ -56,7 +61,7 @@
                     </tr>
                 </thead>
                 <tbody id="users-table-body">
-                    <!-- Users will be dynamically populated -->
+                    <!-- Users dynamically populated -->
                 </tbody>
             </table>
         </section>
@@ -65,35 +70,21 @@
         <section>
             <h2>Manage Questions</h2>
             <form id="add-question-form">
-                <label for="question">Question:</label>
-                <input type="text" id="question" placeholder="Enter the question" required>
-
-                <label for="option1">Option 1:</label>
-                <input type="text" id="option1" placeholder="Enter option 1" required>
-
-                <label for="option2">Option 2:</label>
-                <input type="text" id="option2" placeholder="Enter option 2" required>
-
-                <label for="option3">Option 3:</label>
-                <input type="text" id="option3" placeholder="Enter option 3" required>
-
-                <label for="option4">Option 4:</label>
-                <input type="text" id="option4" placeholder="Enter option 4" required>
-
-                <label for="correct-answer">Correct Answer:</label>
+                <input type="text" id="question" placeholder="Enter Question" required>
+                <input type="text" id="option1" placeholder="Option 1" required>
+                <input type="text" id="option2" placeholder="Option 2" required>
+                <input type="text" id="option3" placeholder="Option 3" required>
+                <input type="text" id="option4" placeholder="Option 4" required>
                 <select id="correct-answer" required>
                     <option value="0">Option 1</option>
                     <option value="1">Option 2</option>
                     <option value="2">Option 3</option>
                     <option value="3">Option 4</option>
                 </select>
-
-                <label for="category">Category:</label>
                 <select id="category" required>
                     <option value="Moderation">Moderation</option>
                     <option value="ModMail">ModMail</option>
                 </select>
-
                 <button type="submit">Add Question</button>
             </form>
             <h3>All Questions</h3>
@@ -106,28 +97,32 @@
                     </tr>
                 </thead>
                 <tbody id="questions-table-body">
-                    <!-- Questions will be dynamically populated -->
+                    <!-- Questions dynamically populated -->
                 </tbody>
             </table>
         </section>
     </main>
 
     <script>
-        // Fetch trial codes
+        // Utility: Fetch data and populate tables
+        async function fetchData(url, tableId, mapFn) {
+            const response = await fetch(url);
+            const data = await response.json();
+            document.getElementById(tableId).innerHTML = data.map(mapFn).join('');
+        }
+
+        // Fetch Trial Codes
         async function fetchTrialCodes() {
-            const response = await fetch('/admin/trial-codes');
-            const trialCodes = await response.json();
-            const tableBody = document.getElementById('trial-codes-table-body');
-            tableBody.innerHTML = trialCodes.map(code => `
+            await fetchData('/admin/trial-codes', 'trial-codes-table-body', code => `
                 <tr>
                     <td>${code.code}</td>
                     <td>${code.used ? 'Yes' : 'No'}</td>
                     <td><button onclick="deleteTrialCode('${code._id}')">Delete</button></td>
                 </tr>
-            `).join('');
+            `);
         }
 
-        // Add trial code
+        // Add Trial Code
         document.getElementById('add-trial-code-form').addEventListener('submit', async (event) => {
             event.preventDefault();
             const trialCode = document.getElementById('trial-code').value;
@@ -139,18 +134,15 @@
             fetchTrialCodes();
         });
 
-        // Delete trial code
+        // Delete Trial Code
         async function deleteTrialCode(id) {
             await fetch(`/admin/trial-codes/${id}`, { method: 'DELETE' });
             fetchTrialCodes();
         }
 
-        // Fetch users
+        // Fetch Users
         async function fetchUsers() {
-            const response = await fetch('/admin/users');
-            const users = await response.json();
-            const tableBody = document.getElementById('users-table-body');
-            tableBody.innerHTML = users.map(user => `
+            await fetchData('/admin/users', 'users-table-body', user => `
                 <tr>
                     <td>${user.username}</td>
                     <td>${user.role}</td>
@@ -162,10 +154,10 @@
                         <button onclick="updatePassword('${user._id}')">Change Password</button>
                     </td>
                 </tr>
-            `).join('');
+            `);
         }
 
-        // Add user
+        // Add User
         document.getElementById('add-user-form').addEventListener('submit', async (event) => {
             event.preventDefault();
             const username = document.getElementById('new-username').value;
@@ -180,7 +172,7 @@
             fetchUsers();
         });
 
-        // Toggle user status
+        // Toggle User
         async function toggleUser(id, isEnabled) {
             await fetch(`/admin/users/${id}`, {
                 method: 'PATCH',
@@ -190,7 +182,7 @@
             fetchUsers();
         }
 
-        // Update user password
+        // Update Password
         async function updatePassword(id) {
             const newPassword = prompt('Enter new password:');
             if (newPassword) {
@@ -203,21 +195,18 @@
             }
         }
 
-        // Fetch questions
+        // Fetch Questions
         async function fetchQuestions() {
-            const response = await fetch('/admin/questions');
-            const questions = await response.json();
-            const tableBody = document.getElementById('questions-table-body');
-            tableBody.innerHTML = questions.map(q => `
+            await fetchData('/admin/questions', 'questions-table-body', q => `
                 <tr>
                     <td>${q.question}</td>
                     <td>${q.category}</td>
                     <td>${q.options[q.correctAnswer]}</td>
                 </tr>
-            `).join('');
+            `);
         }
 
-        // Add question
+        // Add Question
         document.getElementById('add-question-form').addEventListener('submit', async (event) => {
             event.preventDefault();
 
