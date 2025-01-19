@@ -1,4 +1,4 @@
-/* ========== Global Styles ========== */
+/* Global Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -8,42 +8,127 @@ body {
     line-height: 1.6;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3 {
     margin: 0;
-    color: #4869d4; /* Primary blue color */
+    color: #4869d4; /* Primary blue */
 }
 
-a {
-    color: #4869d4;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-a:hover {
-    color: #3a57b2; /* Darker blue for hover */
-}
-
-/* Buttons */
 button {
+    font-family: inherit;
+}
+
+/* Header */
+header {
     background-color: #4869d4; /* Primary blue */
     color: white;
+    padding: 1rem;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+header h1 {
+    font-size: 1.8rem;
+}
+
+/* Dashboard Layout */
+.dashboard-container {
+    display: flex;
+    margin-top: 70px; /* Space for fixed header */
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    background-color: #2d6a4f; /* Green Sidebar */
+    color: white;
+    width: 250px;
+    padding: 1rem;
+    position: fixed;
+    top: 70px; /* Space for fixed header */
+    bottom: 0;
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    margin-bottom: 1rem;
+}
+
+.sidebar button {
+    display: block;
+    width: 100%;
+    background: none;
     border: none;
-    border-radius: 5px;
-    padding: 0.8rem 1.5rem;
+    color: white;
     font-size: 1rem;
-    font-weight: bold;
+    text-align: left;
+    padding: 0.8rem;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
-button:hover {
-    background-color: #3a57b2; /* Darker blue for hover */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+.sidebar button:hover {
+    background-color: #40916c; /* Lighter green for hover */
 }
 
-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+/* Main Content */
+main {
+    margin-left: 250px; /* Sidebar width */
+    padding: 2rem;
+    flex-grow: 1;
+}
+
+.section.hidden {
+    display: none;
+}
+
+main h2 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+}
+
+/* Stats Section */
+.stats-container {
+    display: flex;
+    justify-content: flex-start;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.stat-box {
+    background-color: white;
+    padding: 1.5rem;
+    text-align: center;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    flex: 1 1 200px;
+    max-width: 250px;
+}
+
+.stat-box h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #4869d4;
+}
+
+.stat-box p {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+    color: #333;
 }
 
 /* Forms */
@@ -54,9 +139,10 @@ form {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-bottom: 2rem;
     max-width: 600px;
+    width: 100%;
 }
 
-form input, form select, form textarea {
+form input, form select, form button {
     width: 100%;
     padding: 0.8rem;
     margin-bottom: 1rem;
@@ -66,26 +152,34 @@ form input, form select, form textarea {
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-form input:focus, form select:focus, form textarea:focus {
+form input:focus, form select:focus {
     border-color: #4869d4;
     box-shadow: 0 0 6px rgba(72, 105, 212, 0.5);
     outline: none;
 }
 
 form button {
-    width: 100%;
-    margin-top: 1rem;
+    background-color: #4869d4; /* Primary blue */
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+form button:hover {
+    background-color: #3a57b2; /* Darker blue for hover */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 /* Tables */
 table {
     width: 100%;
     border-collapse: collapse;
-    margin: 1rem 0;
     background-color: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    overflow: hidden;
+    margin: 1rem 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 table thead {
@@ -95,24 +189,17 @@ table thead {
 
 table th, table td {
     padding: 1rem;
-    text-align: left;
     border-bottom: 1px solid #ddd;
-    font-size: 1rem;
 }
 
 table tr:hover {
     background-color: #f9f9f9;
 }
 
-table td:last-child {
-    text-align: center;
-}
-
 table button {
     padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    color: white;
     background-color: #4869d4;
+    color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -123,47 +210,13 @@ table button:hover {
     background-color: #3a57b2;
 }
 
-/* Modals */
-.modal {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    width: 90%;
-    max-width: 500px;
-}
-
-.modal.active {
-    display: block;
-}
-
-.modal-header {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-}
-
-.modal-footer {
-    margin-top: 1.5rem;
-    text-align: right;
-}
-
-.modal-footer button {
-    margin-left: 1rem;
-}
-
 /* Alerts */
 .alert {
     padding: 1rem;
-    margin: 1rem 0;
     border-radius: 5px;
+    margin-bottom: 1rem;
     font-size: 1rem;
+    text-align: center;
 }
 
 .alert.success {
@@ -178,50 +231,26 @@ table button:hover {
     border: 1px solid #f5c6cb;
 }
 
-.alert.info {
-    background-color: #d1ecf1;
-    color: #0c5460;
-    border: 1px solid #bee5eb;
-}
-
-/* Responsive Design */
+/* Responsive Styles */
 @media (max-width: 768px) {
-    header h1 {
-        font-size: 1.5rem;
-    }
-
     .dashboard-container {
         flex-direction: column;
     }
 
     .sidebar {
-        width: 100%;
         position: relative;
-        padding: 1rem 0;
-        min-height: auto;
-    }
-
-    .sidebar ul button {
-        padding: 0.5rem;
+        width: 100%;
+        height: auto;
+        top: 0;
+        box-shadow: none;
     }
 
     main {
-        margin: 0;
-        padding: 1rem;
+        margin-left: 0;
     }
 
     .stats-container {
         flex-direction: column;
         align-items: center;
     }
-
-    .stat-box {
-        width: 100%;
-        max-width: 300px;
-    }
-
-    .modal {
-        width: 90%;
-    }
 }
-
