@@ -3,17 +3,17 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f6fc; /* Light background */
+    background-color: #f4f6fc; /* Light background color */
     color: #333;
     line-height: 1.6;
 }
 
 header {
-    background-color: #4869d4; /* Primary blue */
+    background-color: #4869d4; /* Primary blue color */
     color: white;
     padding: 1rem 2rem;
     text-align: center;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 header h1 {
@@ -21,36 +21,104 @@ header h1 {
     font-size: 1.8rem;
 }
 
-/* Section Titles */
-h2 {
-    color: #4869d4; /* Primary blue */
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+/* Dashboard Layout */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
 }
 
-/* Welcome Section */
-.welcome-section {
-    background-color: #fff;
-    text-align: center;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+/* Sidebar Navigation */
+.sidebar {
+    background-color: #2d6a4f; /* Sidebar green */
+    color: white;
+    width: 250px;
+    min-height: 100vh;
+    padding: 1rem;
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
+    position: fixed;
 }
 
-.welcome-section h2 {
+.sidebar ul {
+    list-style: none;
+    padding: 0;
     margin: 0;
+}
+
+.sidebar ul li {
+    margin: 1rem 0;
+}
+
+.sidebar ul button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    text-align: left;
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar ul button:hover {
+    background-color: #40916c; /* Lighter green for hover */
+}
+
+/* Main Content Area */
+main {
+    margin-left: 250px;
+    padding: 2rem;
+    flex-grow: 1;
+}
+
+/* Section Visibility */
+.section.hidden {
+    display: none;
+}
+
+main h2 {
+    color: #4869d4; /* Primary blue */
+    margin-bottom: 1rem;
+}
+
+/* Stats Section */
+.stats-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.stat-box {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    flex: 1;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.stat-box h3 {
+    color: #4869d4;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.stat-box p {
     font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
     color: #333;
 }
 
 /* Forms */
 form {
-    background-color: #fff;
+    background-color: white;
     padding: 1.5rem;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
     max-width: 500px;
     margin-left: auto;
     margin-right: auto;
@@ -68,12 +136,12 @@ form input, form select, form button {
 
 form input:focus, form select:focus {
     border-color: #4869d4;
-    box-shadow: 0px 0px 6px rgba(72, 105, 212, 0.5);
+    box-shadow: 0 0 6px rgba(72, 105, 212, 0.5);
     outline: none;
 }
 
 form button {
-    background-color: #4869d4;
+    background-color: #4869d4; /* Primary blue */
     color: white;
     border: none;
     font-size: 1rem;
@@ -83,8 +151,8 @@ form button {
 }
 
 form button:hover {
-    background-color: #3a57b2;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    background-color: #3a57b2; /* Darker blue for hover */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 /* Tables */
@@ -93,7 +161,7 @@ table {
     border-collapse: collapse;
     margin: 1rem 0;
     background-color: white;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
 }
@@ -107,21 +175,17 @@ table th, table td {
     padding: 1rem;
     text-align: left;
     border-bottom: 1px solid #ddd;
+    font-size: 1rem;
 }
 
 table tr:hover {
     background-color: #f9f9f9;
 }
 
-table th {
-    font-weight: bold;
-}
-
 table td:last-child {
-    text-align: right;
+    text-align: center;
 }
 
-/* Buttons inside Tables */
 table button {
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
@@ -137,54 +201,33 @@ table button:hover {
     background-color: #3a57b2;
 }
 
-/* Stats Boxes */
-.stats-container {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.stat-box {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 1.5rem;
-    width: 200px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.stat-box h3 {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-    color: #4869d4;
-}
-
-.stat-box p {
-    font-size: 2rem;
-    font-weight: bold;
-    margin: 0;
-    color: #333;
-}
-
 /* Responsive Styles */
 @media (max-width: 768px) {
     header h1 {
         font-size: 1.5rem;
     }
 
-    form input, form select, form button {
-        font-size: 0.9rem;
+    .dashboard-container {
+        flex-direction: column;
     }
 
-    table th, table td {
-        font-size: 0.9rem;
+    .sidebar {
+        width: 100%;
+        position: relative;
+        padding: 1rem 0;
+    }
+
+    .sidebar ul button {
+        padding: 0.5rem;
+    }
+
+    main {
+        margin: 0;
+        padding: 1rem;
     }
 
     .stats-container {
         flex-direction: column;
-        align-items: center;
     }
 
     .stat-box {
