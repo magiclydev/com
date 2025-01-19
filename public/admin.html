@@ -3,22 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Magicly Admin Portal</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Header -->
     <header>
-        <h1>Admin Dashboard</h1>
+        <div class="header-content">
+            <h1><i class="fas fa-magic"></i> Magicly Admin Portal</h1>
+        </div>
     </header>
+
     <div class="dashboard-container">
         <!-- Sidebar -->
         <nav class="sidebar">
             <ul>
-                <li><button onclick="showSection('dashboard')">Dashboard</button></li>
-                <li><button onclick="showSection('trial-codes')">Manage Trial Codes</button></li>
-                <li><button onclick="showSection('users')">Manage Users</button></li>
-                <li><button onclick="showSection('questions')">Manage Questions</button></li>
-                <li><button onclick="showSection('results')">View Results</button></li>
+                <li><button onclick="showSection('dashboard')"><i class="fas fa-home"></i> Dashboard</button></li>
+                <li><button onclick="showSection('trial-codes')"><i class="fas fa-key"></i> Manage Trial Codes</button></li>
+                <li><button onclick="showSection('users')"><i class="fas fa-users"></i> Manage Users</button></li>
+                <li><button onclick="showSection('questions')"><i class="fas fa-question-circle"></i> Manage Questions</button></li>
+                <li><button onclick="showSection('results')"><i class="fas fa-chart-bar"></i> View Results</button></li>
             </ul>
         </nav>
 
@@ -29,22 +37,22 @@
                 <h2>Welcome, <span id="admin-username">Admin</span>!</h2>
                 <div class="stats-container">
                     <div class="stat-box">
-                        <h3>Tests Taken</h3>
+                        <h3><i class="fas fa-tasks"></i> Tests Taken</h3>
                         <p id="tests-taken">0</p>
                     </div>
                     <div class="stat-box">
-                        <h3>Applications Received</h3>
+                        <h3><i class="fas fa-envelope"></i> Applications Received</h3>
                         <p id="applications-received">0</p>
                     </div>
                 </div>
             </section>
 
-            <!-- Trial Code Management Section -->
+            <!-- Trial Code Management -->
             <section id="trial-codes" class="section hidden">
-                <h2>Manage Trial Codes</h2>
+                <h2><i class="fas fa-key"></i> Manage Trial Codes</h2>
                 <form id="add-trial-code-form">
                     <input type="text" id="trial-code" placeholder="Enter Trial Code" required>
-                    <button type="submit">Add Trial Code</button>
+                    <button type="submit"><i class="fas fa-plus"></i> Add Trial Code</button>
                 </form>
                 <h3>All Trial Codes</h3>
                 <table>
@@ -61,9 +69,9 @@
                 </table>
             </section>
 
-            <!-- User Management Section -->
+            <!-- User Management -->
             <section id="users" class="section hidden">
-                <h2>Manage Users</h2>
+                <h2><i class="fas fa-users"></i> Manage Users</h2>
                 <form id="add-user-form">
                     <input type="text" id="new-username" placeholder="Username" required>
                     <select id="new-role">
@@ -71,7 +79,7 @@
                         <option value="Manager">Manager</option>
                     </select>
                     <input type="password" id="new-password" placeholder="Password" required>
-                    <button type="submit">Add User</button>
+                    <button type="submit"><i class="fas fa-plus"></i> Add User</button>
                 </form>
                 <h3>All Users</h3>
                 <table>
@@ -89,9 +97,9 @@
                 </table>
             </section>
 
-            <!-- Questions Management Section -->
+            <!-- Questions Management -->
             <section id="questions" class="section hidden">
-                <h2>Manage Questions</h2>
+                <h2><i class="fas fa-question-circle"></i> Manage Questions</h2>
                 <form id="add-question-form">
                     <input type="text" id="question" placeholder="Enter Question" required>
                     <input type="text" id="option1" placeholder="Option 1" required>
@@ -108,7 +116,7 @@
                         <option value="Moderation">Moderation</option>
                         <option value="ModMail">ModMail</option>
                     </select>
-                    <button type="submit">Add Question</button>
+                    <button type="submit"><i class="fas fa-plus"></i> Add Question</button>
                 </form>
                 <h3>All Questions</h3>
                 <table>
@@ -125,9 +133,9 @@
                 </table>
             </section>
 
-            <!-- Test Results Section -->
+            <!-- Test Results -->
             <section id="results" class="section hidden">
-                <h2>View Test Results</h2>
+                <h2><i class="fas fa-chart-bar"></i> View Test Results</h2>
                 <table>
                     <thead>
                         <tr>
@@ -146,8 +154,13 @@
         </main>
     </div>
 
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Magicly Admin Portal. All Rights Reserved.</p>
+    </footer>
+
     <script>
-        // Function to switch between sections
+        // Section Switching
         function showSection(sectionId) {
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.add('hidden');
@@ -155,41 +168,8 @@
             document.getElementById(sectionId).classList.remove('hidden');
         }
 
-        // Example fetching for stats
-        async function fetchStats() {
-            document.getElementById('tests-taken').textContent = 123; // Mocked data
-            document.getElementById('applications-received').textContent = 456; // Mocked data
-        }
-
-        // Example data fetching for users, trial codes, etc.
-        async function fetchTrialCodes() {
-            const tableBody = document.getElementById('trial-codes-table-body');
-            tableBody.innerHTML = `
-                <tr>
-                    <td>Code123</td>
-                    <td>No</td>
-                    <td><button>Delete</button></td>
-                </tr>
-            `; // Mocked data
-        }
-
-        async function fetchUsers() {
-            const tableBody = document.getElementById('users-table-body');
-            tableBody.innerHTML = `
-                <tr>
-                    <td>Admin1</td>
-                    <td>Admin</td>
-                    <td>Enabled</td>
-                    <td><button>Disable</button></td>
-                </tr>
-            `; // Mocked data
-        }
-
-        // Initial fetching and setup
-        fetchStats();
-        fetchTrialCodes();
-        fetchUsers();
-        showSection('dashboard'); // Default section
+        // Default Section
+        showSection('dashboard');
     </script>
 </body>
 </html>
