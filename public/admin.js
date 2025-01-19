@@ -9,6 +9,26 @@ async function fetchData(url, tableId, mapFn) {
         console.error(`Error fetching data from ${url}:`, error);
     }
 }
+// Show a specific section and hide the others
+function showSection(sectionId) {
+    // Hide all sections
+    document.querySelectorAll('.section').forEach(section => {
+        section.classList.add('hidden');
+    });
+
+    // Show the selected section
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+        targetSection.classList.remove('hidden');
+    } else {
+        console.error(`Section with ID "${sectionId}" not found.`);
+    }
+}
+
+// Set the default section to display on page load
+window.onload = () => {
+    showSection('dashboard'); // Default to the dashboard section
+};
 
 // Utility: Toggle sections
 function showSection(sectionId) {
