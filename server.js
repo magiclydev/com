@@ -191,6 +191,12 @@ app.get('/admin/questions', isAuthenticated, isRole('Admin'), async (req, res) =
         res.status(500).send('Error fetching questions');
     }
 });
+app.get('/admin', (req, res) => {
+    if (!req.session || !req.session.user) {
+        return res.redirect('/login');
+    }
+    res.sendFile(path.join(__dirname, 'views/admin.html'));
+});
 
 app.post('/admin/questions', isAuthenticated, isRole('Admin'), async (req, res) => {
     const { question, options, correctAnswer, category } = req.body;
