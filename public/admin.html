@@ -10,105 +10,148 @@
     <header>
         <h1>Admin Dashboard</h1>
     </header>
-    <main>
-        <!-- Welcome Section -->
-        <section class="welcome-section">
-            <h2>Welcome, <span id="admin-username">Admin</span>!</h2>
-        </section>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <ul>
+                <li><button onclick="showSection('dashboard')">Dashboard</button></li>
+                <li><button onclick="showSection('trial-codes')">Manage Trial Codes</button></li>
+                <li><button onclick="showSection('users')">Manage Users</button></li>
+                <li><button onclick="showSection('questions')">Manage Questions</button></li>
+                <li><button onclick="showSection('test-results')">View Results</button></li>
+            </ul>
+        </nav>
 
-        <!-- Trial Code Management -->
-        <section>
-            <h2>Manage Trial Codes</h2>
-            <form id="add-trial-code-form">
-                <input type="text" id="trial-code" placeholder="Enter Trial Code" required>
-                <button type="submit">Add Trial Code</button>
-            </form>
-            <h3>All Trial Codes</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Code</th>
-                        <th>Used</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="trial-codes-table-body">
-                    <!-- Trial codes dynamically populated -->
-                </tbody>
-            </table>
-        </section>
+        <!-- Main Content Area -->
+        <main>
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section">
+                <h2>Welcome, <span id="admin-username">Admin</span>!</h2>
+                <div class="stats-container">
+                    <div class="stat-box">
+                        <h3>Tests Taken</h3>
+                        <p id="tests-taken-this-month">0</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>Applications Received</h3>
+                        <p id="applications-received-this-month">0</p>
+                    </div>
+                </div>
+            </section>
 
-        <!-- User Management -->
-        <section>
-            <h2>Manage Users</h2>
-            <form id="add-user-form">
-                <input type="text" id="new-username" placeholder="Username" required>
-                <select id="new-role">
-                    <option value="Admin">Admin</option>
-                    <option value="Manager">Manager</option>
-                </select>
-                <input type="password" id="new-password" placeholder="Password" required>
-                <button type="submit">Add User</button>
-            </form>
-            <h3>All Users</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Username</th>
-                        <th>Role</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="users-table-body">
-                    <!-- Users dynamically populated -->
-                </tbody>
-            </table>
-        </section>
+            <!-- Trial Code Management Section -->
+            <section id="trial-codes" class="section hidden">
+                <h2>Manage Trial Codes</h2>
+                <form id="add-trial-code-form">
+                    <input type="text" id="trial-code" placeholder="Enter Trial Code" required>
+                    <button type="submit">Add Trial Code</button>
+                </form>
+                <h3>All Trial Codes</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Used</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="trial-codes-table-body">
+                        <!-- Trial codes dynamically populated -->
+                    </tbody>
+                </table>
+            </section>
 
-        <!-- Question Management -->
-        <section>
-            <h2>Manage Questions</h2>
-            <form id="add-question-form">
-                <input type="text" id="question" placeholder="Enter Question" required>
-                <input type="text" id="option1" placeholder="Option 1" required>
-                <input type="text" id="option2" placeholder="Option 2" required>
-                <input type="text" id="option3" placeholder="Option 3" required>
-                <input type="text" id="option4" placeholder="Option 4" required>
-                <select id="correct-answer" required>
-                    <option value="0">Option 1</option>
-                    <option value="1">Option 2</option>
-                    <option value="2">Option 3</option>
-                    <option value="3">Option 4</option>
-                </select>
-                <select id="category" required>
-                    <option value="Moderation">Moderation</option>
-                    <option value="ModMail">ModMail</option>
-                </select>
-                <button type="submit">Add Question</button>
-            </form>
-            <h3>All Questions</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Question</th>
-                        <th>Category</th>
-                        <th>Correct Answer</th>
-                    </tr>
-                </thead>
-                <tbody id="questions-table-body">
-                    <!-- Questions dynamically populated -->
-                </tbody>
-            </table>
-        </section>
-    </main>
+            <!-- User Management Section -->
+            <section id="users" class="section hidden">
+                <h2>Manage Users</h2>
+                <form id="add-user-form">
+                    <input type="text" id="new-username" placeholder="Username" required>
+                    <select id="new-role">
+                        <option value="Admin">Admin</option>
+                        <option value="Manager">Manager</option>
+                    </select>
+                    <input type="password" id="new-password" placeholder="Password" required>
+                    <button type="submit">Add User</button>
+                </form>
+                <h3>All Users</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body">
+                        <!-- Users dynamically populated -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Questions Management Section -->
+            <section id="questions" class="section hidden">
+                <h2>Manage Questions</h2>
+                <form id="add-question-form">
+                    <input type="text" id="question" placeholder="Enter Question" required>
+                    <input type="text" id="option1" placeholder="Option 1" required>
+                    <input type="text" id="option2" placeholder="Option 2" required>
+                    <input type="text" id="option3" placeholder="Option 3" required>
+                    <input type="text" id="option4" placeholder="Option 4" required>
+                    <select id="correct-answer" required>
+                        <option value="0">Option 1</option>
+                        <option value="1">Option 2</option>
+                        <option value="2">Option 3</option>
+                        <option value="3">Option 4</option>
+                    </select>
+                    <select id="category" required>
+                        <option value="Moderation">Moderation</option>
+                        <option value="ModMail">ModMail</option>
+                    </select>
+                    <button type="submit">Add Question</button>
+                </form>
+                <h3>All Questions</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Question</th>
+                            <th>Category</th>
+                            <th>Correct Answer</th>
+                        </tr>
+                    </thead>
+                    <tbody id="questions-table-body">
+                        <!-- Questions dynamically populated -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Test Results Section -->
+            <section id="test-results" class="section hidden">
+                <h2>View Test Results</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>ID</th>
+                            <th>Score</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results-table-body">
+                        <!-- Results dynamically populated -->
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
 
     <script>
-        // Utility: Fetch data and populate tables
-        async function fetchData(url, tableId, mapFn) {
-            const response = await fetch(url);
-            const data = await response.json();
-            document.getElementById(tableId).innerHTML = data.map(mapFn).join('');
+        // Section Visibility Toggle
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.toggle('hidden', section.id !== sectionId);
+            });
         }
 
         // Fetch Trial Codes
@@ -120,24 +163,6 @@
                     <td><button onclick="deleteTrialCode('${code._id}')">Delete</button></td>
                 </tr>
             `);
-        }
-
-        // Add Trial Code
-        document.getElementById('add-trial-code-form').addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const trialCode = document.getElementById('trial-code').value;
-            await fetch('/admin/trial-codes', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ code: trialCode }),
-            });
-            fetchTrialCodes();
-        });
-
-        // Delete Trial Code
-        async function deleteTrialCode(id) {
-            await fetch(`/admin/trial-codes/${id}`, { method: 'DELETE' });
-            fetchTrialCodes();
         }
 
         // Fetch Users
@@ -157,81 +182,40 @@
             `);
         }
 
-        // Add User
-        document.getElementById('add-user-form').addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const username = document.getElementById('new-username').value;
-            const role = document.getElementById('new-role').value;
-            const password = document.getElementById('new-password').value;
-
-            await fetch('/admin/users', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, role, password }),
-            });
-            fetchUsers();
-        });
-
-        // Toggle User
-        async function toggleUser(id, isEnabled) {
-            await fetch(`/admin/users/${id}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ isEnabled }),
-            });
-            fetchUsers();
-        }
-
-        // Update Password
-        async function updatePassword(id) {
-            const newPassword = prompt('Enter new password:');
-            if (newPassword) {
-                await fetch(`/admin/users/${id}/password`, {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ password: newPassword }),
-                });
-                fetchUsers();
-            }
-        }
-
         // Fetch Questions
         async function fetchQuestions() {
-            await fetchData('/admin/questions', 'questions-table-body', q => `
+            await fetchData('/admin/questions', 'questions-table-body', question => `
                 <tr>
-                    <td>${q.question}</td>
-                    <td>${q.category}</td>
-                    <td>${q.options[q.correctAnswer]}</td>
+                    <td>${question.question}</td>
+                    <td>${question.category}</td>
+                    <td>${question.options[question.correctAnswer]}</td>
                 </tr>
             `);
         }
 
-        // Add Question
-        document.getElementById('add-question-form').addEventListener('submit', async (event) => {
-            event.preventDefault();
-
-            const question = document.getElementById('question').value;
-            const options = [
-                document.getElementById('option1').value,
-                document.getElementById('option2').value,
-                document.getElementById('option3').value,
-                document.getElementById('option4').value,
+        // Fetch Results
+        async function fetchResults() {
+            const results = [
+                { name: 'John Doe', id: '123', score: 90, date: '2025-01-01' },
+                { name: 'Jane Smith', id: '456', score: 85, date: '2025-01-02' },
             ];
-            const correctAnswer = parseInt(document.getElementById('correct-answer').value);
-            const category = document.getElementById('category').value;
+            document.getElementById('results-table-body').innerHTML = results.map(result => `
+                <tr>
+                    <td>${result.name}</td>
+                    <td>${result.id}</td>
+                    <td>${result.score}</td>
+                    <td>${result.date}</td>
+                    <td><button>View</button></td>
+                </tr>
+            `).join('');
+        }
 
-            await fetch('/admin/questions', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ question, options, correctAnswer, category }),
-            });
-            fetchQuestions();
-        });
-
-        // Initial fetch
+        // Initial Data Load
         fetchTrialCodes();
         fetchUsers();
         fetchQuestions();
+        fetchResults();
+        showSection('dashboard');
     </script>
 </body>
 </html>
