@@ -1,125 +1,195 @@
-// Add New User
-document.getElementById('add-user').addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const username = document.getElementById('new-username').value;
-    const role = document.getElementById('new-role').value;
-    const password = document.getElementById('new-password').value;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magicly Admin Portal</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <h1><i class="fas fa-magic"></i> Magicly Admin Portal</h1>
+        </div>
+    </header>
 
-    const response = await fetch('/admin/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, role, password }),
-    });
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <ul>
+                <li><button onclick="showSection('dashboard')"><i class="fas fa-home"></i> Dashboard</button></li>
+                <li><button onclick="showSection('trial-codes')"><i class="fas fa-key"></i> Manage Trial Codes</button></li>
+                <li><button onclick="showSection('users')"><i class="fas fa-users"></i> Manage Users</button></li>
+                <li><button onclick="showSection('questions')"><i class="fas fa-question-circle"></i> Manage Questions</button></li>
+                <li><button onclick="showSection('results')"><i class="fas fa-chart-bar"></i> View Results</button></li>
+            </ul>
+        </nav>
 
-    if (response.ok) {
-        alert('User added successfully');
-        document.getElementById('new-username').value = '';
-        document.getElementById('new-role').value = 'Admin';
-        document.getElementById('new-password').value = '';
-        document.getElementById('view-users').click();
-    } else {
-        alert('Error adding user');
-    }
-});
-document.getElementById('logout-button').addEventListener('click', async () => {
-    const response = await fetch('/logout', { method: 'POST' });
-    if (response.ok) {
-        alert('Logged out successfully');
-        window.location.href = '/'; // Redirect to the login page
-    } else {
-        alert('Failed to log out');
-    }
-});
-// View All Users
-document.getElementById('view-users').addEventListener('click', async () => {
-    const response = await fetch('/admin/users', { method: 'GET' });
-    const users = await response.json();
-    const userList = document.getElementById('user-list');
-    userList.innerHTML = users.map(user => `
-        <p>
-            ${user.username} (${user.role}) - ${user.isEnabled ? 'Enabled' : 'Disabled'}
-            <button onclick="toggleUser('${user._id}', ${!user.isEnabled})">
-                ${user.isEnabled ? 'Disable' : 'Enable'}
-            </button>
-            <button onclick="updatePassword('${user._id}')">Change Password</button>
-        </p>
-    `).join('');
-});
+        <!-- Main Content -->
+        <main>
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section">
+                <h2>Welcome, <span id="admin-username">Admin</span>!</h2>
+                <div class="stats-container">
+                    <div class="stat-box">
+                        <h3><i class="fas fa-tasks"></i> Tests Taken</h3>
+                        <p id="tests-taken">0</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3><i class="fas fa-envelope"></i> Applications Received</h3>
+                        <p id="applications-received">0</p>
+                    </div>
+                </div>
+            </section>
 
-// Enable/Disable User
-async function toggleUser(userId, isEnabled) {
-    await fetch(`/admin/users/${userId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ isEnabled }),
-    });
-    document.getElementById('view-users').click(); // Refresh the user list
-}
+            <!-- Trial Code Management -->
+            <section id="trial-codes" class="section hidden">
+                <h2><i class="fas fa-key"></i> Manage Trial Codes</h2>
+                <div class="centered-container">
+                    <form id="add-trial-code-form">
+                        <input type="text" id="trial-code" placeholder="Enter Trial Code" required>
+                        <button type="submit"><i class="fas fa-plus"></i> Add Trial Code</button>
+                    </form>
+                </div>
+                <h3>All Trial Codes</h3>
+                <div class="centered-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Used</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="trial-codes-table-body">
+                            <!-- Trial codes dynamically populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
 
-// Change User Password
-async function updatePassword(userId) {
-    const newPassword = prompt('Enter new password:');
-    if (!newPassword) return;
+            <!-- User Management -->
+            <section id="users" class="section hidden">
+                <h2><i class="fas fa-users"></i> Manage Users</h2>
+                <div class="centered-container">
+                    <form id="add-user-form">
+                        <input type="text" id="new-username" placeholder="Username" required>
+                        <select id="new-role">
+                            <option value="Admin">Admin</option>
+                            <option value="Manager">Manager</option>
+                        </select>
+                        <input type="password" id="new-password" placeholder="Password" required>
+                        <button type="submit"><i class="fas fa-plus"></i> Add User</button>
+                    </form>
+                </div>
+                <h3>All Users</h3>
+                <div class="centered-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            <!-- Users dynamically populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
 
-    const response = await fetch(`/admin/users/${userId}/password`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: newPassword }),
-    });
+            <!-- Questions Management -->
+            <section id="questions" class="section hidden">
+                <h2><i class="fas fa-question-circle"></i> Manage Questions</h2>
+                <div class="centered-container">
+                    <button class="toggle-button" onclick="showSubSection('add-questions')">Add Questions</button>
+                    <button class="toggle-button" onclick="showSubSection('read-questions')">Read Questions</button>
+                </div>
+                <div id="add-questions" class="sub-section hidden">
+                    <form id="add-question-form" class="centered-container">
+                        <input type="text" id="question" placeholder="Enter Question" required>
+                        <input type="text" id="option1" placeholder="Option 1" required>
+                        <input type="text" id="option2" placeholder="Option 2" required>
+                        <input type="text" id="option3" placeholder="Option 3" required>
+                        <input type="text" id="option4" placeholder="Option 4" required>
+                        <select id="correct-answer" required>
+                            <option value="0">Option 1</option>
+                            <option value="1">Option 2</option>
+                            <option value="2">Option 3</option>
+                            <option value="3">Option 4</option>
+                        </select>
+                        <select id="category" required>
+                            <option value="Moderation">Moderation</option>
+                            <option value="ModMail">ModMail</option>
+                        </select>
+                        <button type="submit"><i class="fas fa-plus"></i> Add Question</button>
+                    </form>
+                </div>
+                <div id="read-questions" class="sub-section hidden">
+                    <div class="centered-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Question</th>
+                                    <th>Category</th>
+                                    <th>Correct Answer</th>
+                                </tr>
+                            </thead>
+                            <tbody id="questions-table-body">
+                                <!-- Questions dynamically populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
 
-    if (response.ok) {
-        alert('Password updated successfully');
-        document.getElementById('view-users').click();
-    } else {
-        alert('Error updating password');
-    }
-}
+            <!-- Test Results -->
+            <section id="results" class="section hidden">
+                <h2><i class="fas fa-chart-bar"></i> View Test Results</h2>
+                <div class="centered-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>ID</th>
+                                <th>Score</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results-table-body">
+                            <!-- Results dynamically populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
 
-// Add New Trial Code
-document.getElementById('add-trial-code').addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const code = document.getElementById('trial-code').value;
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            document.getElementById(sectionId).classList.remove('hidden');
+        }
 
-    const response = await fetch('/admin/trial-codes', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code }),
-    });
+        function showSubSection(subSectionId) {
+            document.querySelectorAll('.sub-section').forEach(subSection => {
+                subSection.classList.add('hidden');
+            });
+            document.getElementById(subSectionId).classList.remove('hidden');
+        }
 
-    if (response.ok) {
-        alert('Trial code added successfully');
-        document.getElementById('trial-code').value = '';
-        document.getElementById('view-trial-codes').click();
-    } else {
-        alert('Error adding trial code');
-    }
-});
-
-// View All Trial Codes
-document.getElementById('view-trial-codes').addEventListener('click', async () => {
-    const response = await fetch('/admin/trial-codes', { method: 'GET' });
-    const codes = await response.json();
-    const trialCodeList = document.getElementById('trial-code-list');
-    trialCodeList.innerHTML = codes.map(code => `
-        <p>
-            Code: ${code.code} - Used: ${code.used ? 'Yes' : 'No'}
-            <button onclick="deleteTrialCode('${code._id}')">Delete</button>
-        </p>
-    `).join('');
-});
-document.getElementById('logout-button').addEventListener('click', async () => {
-    const response = await fetch('/logout', { method: 'POST' });
-    if (response.ok) {
-        alert('Logged out successfully');
-        window.location.href = '/'; // Redirect to the login page
-    } else {
-        alert('Failed to log out');
-    }
-});
-
-
-// Delete Trial Code
-async function deleteTrialCode(codeId) {
-    await fetch(`/admin/trial-codes/${codeId}`, { method: 'DELETE' });
-    document.getElementById('view-trial-codes').click(); // Refresh the trial codes list
-}
+        // Default Section
+        showSection('dashboard');
+    </script>
+</body>
+</html>
