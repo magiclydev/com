@@ -11,18 +11,18 @@
         <h1>Admin Dashboard</h1>
     </header>
     <div class="dashboard-container">
-        <!-- Sidebar Navigation -->
+        <!-- Sidebar -->
         <nav class="sidebar">
             <ul>
                 <li><button onclick="showSection('dashboard')">Dashboard</button></li>
                 <li><button onclick="showSection('trial-codes')">Manage Trial Codes</button></li>
                 <li><button onclick="showSection('users')">Manage Users</button></li>
                 <li><button onclick="showSection('questions')">Manage Questions</button></li>
-                <li><button onclick="showSection('test-results')">View Results</button></li>
+                <li><button onclick="showSection('results')">View Results</button></li>
             </ul>
         </nav>
 
-        <!-- Main Content Area -->
+        <!-- Main Content -->
         <main>
             <!-- Dashboard Section -->
             <section id="dashboard" class="section">
@@ -30,11 +30,11 @@
                 <div class="stats-container">
                     <div class="stat-box">
                         <h3>Tests Taken</h3>
-                        <p id="tests-taken-this-month">0</p>
+                        <p id="tests-taken">0</p>
                     </div>
                     <div class="stat-box">
                         <h3>Applications Received</h3>
-                        <p id="applications-received-this-month">0</p>
+                        <p id="applications-received">0</p>
                     </div>
                 </div>
             </section>
@@ -126,7 +126,7 @@
             </section>
 
             <!-- Test Results Section -->
-            <section id="test-results" class="section hidden">
+            <section id="results" class="section hidden">
                 <h2>View Test Results</h2>
                 <table>
                     <thead>
@@ -147,75 +147,49 @@
     </div>
 
     <script>
-        // Section Visibility Toggle
+        // Function to switch between sections
         function showSection(sectionId) {
             document.querySelectorAll('.section').forEach(section => {
-                section.classList.toggle('hidden', section.id !== sectionId);
+                section.classList.add('hidden');
             });
+            document.getElementById(sectionId).classList.remove('hidden');
         }
 
-        // Fetch Trial Codes
+        // Example fetching for stats
+        async function fetchStats() {
+            document.getElementById('tests-taken').textContent = 123; // Mocked data
+            document.getElementById('applications-received').textContent = 456; // Mocked data
+        }
+
+        // Example data fetching for users, trial codes, etc.
         async function fetchTrialCodes() {
-            await fetchData('/admin/trial-codes', 'trial-codes-table-body', code => `
+            const tableBody = document.getElementById('trial-codes-table-body');
+            tableBody.innerHTML = `
                 <tr>
-                    <td>${code.code}</td>
-                    <td>${code.used ? 'Yes' : 'No'}</td>
-                    <td><button onclick="deleteTrialCode('${code._id}')">Delete</button></td>
+                    <td>Code123</td>
+                    <td>No</td>
+                    <td><button>Delete</button></td>
                 </tr>
-            `);
+            `; // Mocked data
         }
 
-        // Fetch Users
         async function fetchUsers() {
-            await fetchData('/admin/users', 'users-table-body', user => `
+            const tableBody = document.getElementById('users-table-body');
+            tableBody.innerHTML = `
                 <tr>
-                    <td>${user.username}</td>
-                    <td>${user.role}</td>
-                    <td>${user.isEnabled ? 'Enabled' : 'Disabled'}</td>
-                    <td>
-                        <button onclick="toggleUser('${user._id}', ${!user.isEnabled})">
-                            ${user.isEnabled ? 'Disable' : 'Enable'}
-                        </button>
-                        <button onclick="updatePassword('${user._id}')">Change Password</button>
-                    </td>
+                    <td>Admin1</td>
+                    <td>Admin</td>
+                    <td>Enabled</td>
+                    <td><button>Disable</button></td>
                 </tr>
-            `);
+            `; // Mocked data
         }
 
-        // Fetch Questions
-        async function fetchQuestions() {
-            await fetchData('/admin/questions', 'questions-table-body', question => `
-                <tr>
-                    <td>${question.question}</td>
-                    <td>${question.category}</td>
-                    <td>${question.options[question.correctAnswer]}</td>
-                </tr>
-            `);
-        }
-
-        // Fetch Results
-        async function fetchResults() {
-            const results = [
-                { name: 'John Doe', id: '123', score: 90, date: '2025-01-01' },
-                { name: 'Jane Smith', id: '456', score: 85, date: '2025-01-02' },
-            ];
-            document.getElementById('results-table-body').innerHTML = results.map(result => `
-                <tr>
-                    <td>${result.name}</td>
-                    <td>${result.id}</td>
-                    <td>${result.score}</td>
-                    <td>${result.date}</td>
-                    <td><button>View</button></td>
-                </tr>
-            `).join('');
-        }
-
-        // Initial Data Load
+        // Initial fetching and setup
+        fetchStats();
         fetchTrialCodes();
         fetchUsers();
-        fetchQuestions();
-        fetchResults();
-        showSection('dashboard');
+        showSection('dashboard'); // Default section
     </script>
 </body>
 </html>
