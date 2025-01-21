@@ -11,7 +11,7 @@ async function fetchData(url, tableId, mapFn) {
 }
 
 // Utility: Show a specific section and hide others
-function showSection(sectionId) {
+window.showSection = function showSection(sectionId) {
     document.querySelectorAll('.section').forEach(section => {
         section.classList.add('hidden');
     });
@@ -21,10 +21,10 @@ function showSection(sectionId) {
     } else {
         console.error(`Section with ID "${sectionId}" not found.`);
     }
-}
+};
 
 // Utility: Show a specific subsection and hide others
-function showSubSection(subSectionId) {
+window.showSubSection = function showSubSection(subSectionId) {
     document.querySelectorAll('.sub-section').forEach(subSection => {
         subSection.classList.add('hidden');
     });
@@ -34,7 +34,7 @@ function showSubSection(subSectionId) {
     } else {
         console.error(`Sub-section with ID "${subSectionId}" not found.`);
     }
-}
+};
 
 // Fetch and display trial codes
 async function fetchTrialCodes() {
