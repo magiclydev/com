@@ -1,3 +1,6 @@
+// Log to confirm script is loaded
+console.log("admin.js loaded successfully");
+
 // Utility: Fetch data and populate tables dynamically
 async function fetchData(url, tableId, mapFn) {
     try {
@@ -12,6 +15,7 @@ async function fetchData(url, tableId, mapFn) {
 
 // Utility: Show a specific section and hide others
 window.showSection = function showSection(sectionId) {
+    console.log(`Switching to section: ${sectionId}`);
     document.querySelectorAll('.section').forEach(section => {
         section.classList.add('hidden');
     });
@@ -25,6 +29,7 @@ window.showSection = function showSection(sectionId) {
 
 // Utility: Show a specific subsection and hide others
 window.showSubSection = function showSubSection(subSectionId) {
+    console.log(`Switching to subsection: ${subSectionId}`);
     document.querySelectorAll('.sub-section').forEach(subSection => {
         subSection.classList.add('hidden');
     });
@@ -32,7 +37,7 @@ window.showSubSection = function showSubSection(subSectionId) {
     if (targetSubSection) {
         targetSubSection.classList.remove('hidden');
     } else {
-        console.error(`Sub-section with ID "${subSectionId}" not found.`);
+        console.error(`Subsection with ID "${subSectionId}" not found.`);
     }
 };
 
@@ -176,8 +181,8 @@ document.getElementById('add-question-form').addEventListener('submit', async ev
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ question, options, correctAnswer, category }),
         });
-        document.getElementById('add-question-form').reset(); // Clear form
-        fetchQuestions();
+        document.getElementById('add-question-form').reset(); // Clear the form
+        fetchQuestions(); // Refresh questions list
     } catch (error) {
         console.error('Error adding question:', error);
     }
@@ -185,7 +190,7 @@ document.getElementById('add-question-form').addEventListener('submit', async ev
 
 // Initialize and fetch data
 function initialize() {
-    window.showSection('dashboard'); // Default section
+    showSection('dashboard'); // Default section
     fetchTrialCodes();
     fetchUsers();
     fetchQuestions();
@@ -193,5 +198,3 @@ function initialize() {
 
 // Call initialize on page load
 window.onload = initialize;
-
-console.log("admin.js loaded successfully");
