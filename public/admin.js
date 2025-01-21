@@ -193,3 +193,5 @@ function initialize() {
 
 // Call initialize on page load
 window.onload = initialize;
+
+console.log("admin.js loaded successfully");
