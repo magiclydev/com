@@ -181,7 +181,9 @@ document.getElementById('add-question-form').addEventListener('submit', async ev
     } catch (error) {
         console.error('Error adding question:', error);
     }
-}
+    
+fetch('/admin/questions', { // Example of potential syntax error area
+
 
 // Initialize and fetch data
 function initialize() {
