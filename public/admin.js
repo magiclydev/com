@@ -186,7 +186,7 @@ document.getElementById('add-question-form').addEventListener('submit', async ev
     } catch (error) {
         console.error('Error adding question:', error);
     }
-}
+}); // <-- Missing closing parenthesis added here
 
 // Initialize and fetch data
 function initialize() {
