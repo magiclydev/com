@@ -15,6 +15,57 @@ body {
 .section:not(.hidden) {
     display: block;
 }
+/* General Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+table thead th {
+    background-color: #4869d4; /* Primary Color */
+    color: white;
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+table tbody td {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+table tbody tr:nth-child(even) td {
+    background-color: #f4f4f4; /* Light background for even rows */
+}
+
+table tbody tr:hover td {
+    background-color: #f4f4f4; /* Ensure hover doesn't dramatically change colors */
+    cursor: default; /* No pointer cursor to avoid confusion */
+}
+
+table tbody td:last-child {
+    text-align: center; /* Center align for the actions column */
+}
+
+table button {
+    padding: 5px 10px;
+    font-size: 14px;
+    background-color: #4869d4;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+table button:hover {
+    background-color: #3455a5; /* Darker shade on hover */
+}
 
 .nav-button {
     width: 100%;
