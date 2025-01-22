@@ -85,6 +85,55 @@ header h1 {
 .sidebar button:hover {
     background-color: #40916c;
 }
+/* Search Bar */
+#search-staff-form {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    align-items: center;
+    max-width: 600px; /* Ensure it's not overly wide */
+    margin-left: auto; /* Center horizontally */
+    margin-right: auto; /* Center horizontally */
+}
+
+#search-staff-form input {
+    flex-grow: 1; /* Take up remaining space */
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#search-staff-form input:focus {
+    border-color: #4869d4; /* Primary color */
+    box-shadow: 0 0 6px rgba(72, 105, 212, 0.5);
+    outline: none;
+}
+
+#search-staff-form button {
+    padding: 12px 20px; /* Consistent size with input */
+    font-size: 16px;
+    background-color: #4869d4; /* Primary button color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#search-staff-form button:hover {
+    background-color: #3a57b2; /* Darker hover color */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15); /* Subtle hover shadow */
+}
+
+#search-staff-form button i {
+    margin-right: 5px;
+    font-size: 18px;
+}
 
 /* Main Content */
 main {
