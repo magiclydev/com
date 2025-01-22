@@ -1,14 +1,13 @@
 /* Global Styles */
 body {
-    font-family: 'Roboto', sans-serif; /* Modern font */
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f6fc; /* Light background */
+    background-color: #f4f6fc;
     color: #333;
     line-height: 1.6;
 }
 
-/* Section Visibility */
 .section {
     display: none;
     margin: 20px;
@@ -20,7 +19,7 @@ body {
 
 /* Header */
 header {
-    background-color: #4869d4; /* Primary blue */
+    background-color: #4869d4;
     color: white;
     padding: 1rem;
     text-align: center;
@@ -46,12 +45,12 @@ header h1 {
 
 /* Sidebar */
 .sidebar {
-    background-color: #2d6a4f; /* Sidebar green */
+    background-color: #2d6a4f;
     color: white;
     width: 250px;
     padding: 1rem;
     position: fixed;
-    top: 70px; /* Below header */
+    top: 70px;
     bottom: 0;
     overflow-y: auto;
     box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
@@ -84,14 +83,14 @@ header h1 {
 }
 
 .sidebar button:hover {
-    background-color: #40916c; /* Lighter green for hover */
+    background-color: #40916c;
 }
 
 /* Main Content */
 main {
-    margin-left: 250px; /* Sidebar width */
+    margin-left: 250px;
     padding: 2rem;
-    flex-grow: 1;
+    min-height: 100vh;
 }
 
 .section.hidden {
@@ -142,16 +141,53 @@ main h2 {
     color: #333;
 }
 
+/* Search Bar */
+#search-staff-form {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#search-staff-form input {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#search-staff-form input:focus {
+    border-color: #4869d4;
+    box-shadow: 0 0 6px rgba(72, 105, 212, 0.5);
+    outline: none;
+}
+
+#search-staff-form button {
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #4869d4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#search-staff-form button:hover {
+    background-color: #3a57b2;
+}
+
 /* Tables */
 table {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
+    border-collapse: collapse;
     background-color: white;
     border-radius: 8px;
     margin: 1rem 0;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
 }
 
 table thead {
@@ -166,7 +202,6 @@ table thead th {
     font-weight: bold;
     letter-spacing: 0.05em;
     text-align: left;
-    border-bottom: 2px solid #ddd;
 }
 
 table tbody tr {
@@ -185,13 +220,7 @@ table tbody tr:hover {
 table tbody td {
     padding: 12px;
     font-size: 14px;
-    color: #333;
     text-align: left;
-    vertical-align: middle;
-}
-
-table tbody td:last-child {
-    text-align: center;
 }
 
 table button {
@@ -211,20 +240,29 @@ table button:hover {
 
 /* Forms */
 form {
-    margin-top: 20px;
-    padding: 1.5rem;
     background-color: white;
+    padding: 1.5rem;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
     max-width: 600px;
+    width: 100%;
 }
 
-form input, form select, form textarea, form button {
+form input, form select, form button {
     width: 100%;
-    padding: 10px;
-    margin: 10px 0;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
     border: 1px solid #ddd;
     border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+form input:focus, form select:focus {
+    border-color: #4869d4;
+    box-shadow: 0 0 6px rgba(72, 105, 212, 0.5);
+    outline: none;
 }
 
 form button {
@@ -248,9 +286,8 @@ form button:hover {
     }
 
     .sidebar {
-        position: relative;
         width: 100%;
-        height: auto;
+        position: relative;
         top: 0;
         box-shadow: none;
     }
