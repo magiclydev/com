@@ -52,7 +52,7 @@ header h1 {
     position: fixed;
     top: 70px;
     bottom: 0;
-    overflow-y: auto;
+    overflow-y: auto; /* Enable scrolling for sidebar */
     box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -88,9 +88,10 @@ header h1 {
 
 /* Main Content */
 main {
-    margin-left: 250px;
+    margin-left: 250px; /* Ensure main content shifts to the right of the sidebar */
     padding: 2rem;
     min-height: 100vh;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 .section.hidden {
@@ -186,11 +187,6 @@ main h2 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-#search-staff-form button i {
-    margin-right: 8px;
-    font-size: 18px;
-}
-
 /* Tables */
 table {
     width: 100%;
@@ -232,62 +228,6 @@ table tbody td {
     padding: 12px;
     font-size: 14px;
     text-align: left;
-}
-
-table button {
-    padding: 6px 12px;
-    font-size: 14px;
-    background-color: #4869d4;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-table button:hover {
-    background-color: #3a57b2;
-}
-
-/* Forms */
-form {
-    background-color: white;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 2rem;
-    max-width: 600px;
-    width: 100%;
-}
-
-form input, form select, form button {
-    width: 100%;
-    padding: 0.8rem;
-    margin-bottom: 1rem;
-    font-size: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-form input:focus, form select:focus {
-    border-color: #4869d4;
-    box-shadow: 0 0 6px rgba(72, 105, 212, 0.5);
-    outline: none;
-}
-
-form button {
-    background-color: #4869d4;
-    color: white;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-form button:hover {
-    background-color: #3a57b2;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 /* Responsive Styles */
