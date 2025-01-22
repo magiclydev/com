@@ -73,6 +73,34 @@
                 </table>
             </section>
 
+            <!-- Manage Users Section -->
+            <section id="users" class="section hidden">
+                <h2>Manage Users</h2>
+                <form id="add-user-form" onsubmit="addUser(event)">
+                    <input type="text" id="new-username" placeholder="Username" required>
+                    <select id="new-role">
+                        <option value="Admin">Admin</option>
+                        <option value="Manager">Manager</option>
+                    </select>
+                    <input type="password" id="new-password" placeholder="Password" required>
+                    <button type="submit" class="action-button"><i class="fas fa-plus"></i> Add User</button>
+                </form>
+                <h3>All Users</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body">
+                        <!-- Users dynamically populated -->
+                    </tbody>
+                </table>
+            </section>
+
             <!-- Manage Staff Section -->
             <section id="staff" class="section hidden">
                 <h2>Manage Staff</h2>
