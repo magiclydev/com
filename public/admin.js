@@ -1,254 +1,246 @@
-/* Global Styles */
-body {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f6fc;
-    color: #333;
-    line-height: 1.6;
-}
+// Log to confirm script is loaded
+console.log("admin.js loaded successfully");
 
-.section {
-    display: none;
-    margin: 20px;
-}
-
-.section:not(.hidden) {
-    display: block;
-}
-
-/* Header */
-header {
-    background-color: #4869d4;
-    color: white;
-    padding: 1rem;
-    text-align: center;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-header .header-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-header h1 {
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin: 0;
-}
-
-/* Sidebar */
-.sidebar {
-    background-color: #2d6a4f;
-    color: white;
-    width: 250px;
-    padding: 1rem;
-    position: fixed;
-    top: 70px;
-    bottom: 0;
-    overflow-y: auto; /* Enable scrolling for sidebar */
-    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
-}
-
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.sidebar li {
-    margin-bottom: 1rem;
-}
-
-.sidebar button {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1rem;
-    text-align: left;
-    padding: 0.8rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.sidebar button:hover {
-    background-color: #40916c;
-}
-
-/* Main Content */
-main {
-    margin-left: 250px; /* Ensure main content shifts to the right of the sidebar */
-    padding: 2rem;
-    min-height: 100vh;
-    overflow-x: hidden; /* Prevent horizontal scrolling */
-}
-
-.section.hidden {
-    display: none;
-}
-
-main h2 {
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-/* Stats Section */
-.stats-container {
-    display: flex;
-    justify-content: flex-start;
-    gap: 2rem;
-    flex-wrap: wrap;
-    margin-bottom: 2rem;
-}
-
-.stat-box {
-    background-color: white;
-    padding: 1.5rem;
-    text-align: center;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    flex: 1 1 200px;
-    max-width: 250px;
-}
-
-.stat-box h3 {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-    color: #4869d4;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.stat-box p {
-    font-size: 2rem;
-    font-weight: bold;
-    margin: 0;
-    color: #333;
-}
-
-/* Search Bar */
-#search-staff-form {
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    align-items: center;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#search-staff-form input {
-    flex-grow: 1;
-    padding: 12px 15px;
-    font-size: 16px;
-    border: 2px solid #4869d4;
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-#search-staff-form input:focus {
-    border-color: #3a57b2;
-    box-shadow: 0 4px 8px rgba(72, 105, 212, 0.2);
-    outline: none;
-}
-
-#search-staff-form button {
-    padding: 12px 20px;
-    font-size: 16px;
-    background-color: #4869d4;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-#search-staff-form button:hover {
-    background-color: #3a57b2;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Tables */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: white;
-    border-radius: 8px;
-    margin: 1rem 0;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-table thead {
-    background-color: #4869d4;
-    color: white;
-}
-
-table thead th {
-    text-transform: uppercase;
-    padding: 15px;
-    font-size: 14px;
-    font-weight: bold;
-    letter-spacing: 0.05em;
-    text-align: left;
-}
-
-table tbody tr {
-    border-bottom: 1px solid #ddd;
-    transition: background-color 0.3s ease;
-}
-
-table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-table tbody tr:hover {
-    background-color: #f0f4ff;
-}
-
-table tbody td {
-    padding: 12px;
-    font-size: 14px;
-    text-align: left;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-    .dashboard-container {
-        flex-direction: column;
-    }
-
-    .sidebar {
-        width: 100%;
-        position: relative;
-        top: 0;
-        box-shadow: none;
-    }
-
-    main {
-        margin-left: 0;
-    }
-
-    .stats-container {
-        flex-direction: column;
-        align-items: center;
+// Utility: Fetch data and populate tables dynamically
+async function fetchData(url, tableId, mapFn) {
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const tableBody = document.getElementById(tableId);
+        tableBody.innerHTML = data.map(mapFn).join('');
+    } catch (error) {
+        console.error(`Error fetching data from ${url}:`, error);
     }
 }
+
+// Utility: Show a specific section and hide others
+window.showSection = function showSection(sectionId) {
+    console.log(`Switching to section: ${sectionId}`);
+    document.querySelectorAll('.section').forEach(section => {
+        section.classList.add('hidden');
+    });
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+        targetSection.classList.remove('hidden');
+    } else {
+        console.error(`Section with ID "${sectionId}" not found.`);
+    }
+};
+
+// Utility: Show a specific subsection and hide others
+window.showSubSection = function showSubSection(subSectionId) {
+    console.log(`Switching to subsection: ${subSectionId}`);
+    document.querySelectorAll('.sub-section').forEach(subSection => {
+        subSection.classList.add('hidden');
+    });
+    const targetSubSection = document.getElementById(subSectionId);
+    if (targetSubSection) {
+        targetSubSection.classList.remove('hidden');
+    } else {
+        console.error(`Subsection with ID "${subSectionId}" not found.`);
+    }
+};
+
+// Fetch and display trial codes
+async function fetchTrialCodes() {
+    await fetchData('/admin/trial-codes', 'trial-codes-table-body', code => `
+        <tr>
+            <td>${code.code}</td>
+            <td>${code.used ? 'Yes' : 'No'}</td>
+            <td>
+                <button onclick="deleteTrialCode('${code._id}')">Delete</button>
+            </td>
+        </tr>
+    `);
+}
+
+// Add a trial code
+document.getElementById('add-trial-code-form').addEventListener('submit', async event => {
+    event.preventDefault();
+    const trialCode = document.getElementById('trial-code').value;
+
+    try {
+        await fetch('/admin/trial-codes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code: trialCode }),
+        });
+        document.getElementById('trial-code').value = ''; // Clear input
+        fetchTrialCodes();
+    } catch (error) {
+        console.error('Error adding trial code:', error);
+    }
+});
+
+// Delete a trial code
+async function deleteTrialCode(id) {
+    try {
+        await fetch(`/admin/trial-codes/${id}`, { method: 'DELETE' });
+        fetchTrialCodes();
+    } catch (error) {
+        console.error(`Error deleting trial code with ID ${id}:`, error);
+    }
+}
+
+// Fetch and display users
+async function fetchUsers() {
+    await fetchData('/admin/users', 'users-table-body', user => `
+        <tr>
+            <td>${user.username}</td>
+            <td>${user.role}</td>
+            <td>${user.isEnabled ? 'Enabled' : 'Disabled'}</td>
+            <td>
+                <button onclick="toggleUserStatus('${user._id}', ${!user.isEnabled})">
+                    ${user.isEnabled ? 'Disable' : 'Enable'}
+                </button>
+                <button onclick="updateUserPassword('${user._id}')">Change Password</button>
+            </td>
+        </tr>
+    `);
+}
+
+// Add a user
+document.getElementById('add-user-form').addEventListener('submit', async event => {
+    event.preventDefault();
+    const username = document.getElementById('new-username').value;
+    const role = document.getElementById('new-role').value;
+    const password = document.getElementById('new-password').value;
+
+    try {
+        await fetch('/admin/users', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, role, password }),
+        });
+        document.getElementById('new-username').value = '';
+        document.getElementById('new-password').value = '';
+        fetchUsers();
+    } catch (error) {
+        console.error('Error adding user:', error);
+    }
+});
+
+// Toggle user status
+async function toggleUserStatus(id, isEnabled) {
+    try {
+        await fetch(`/admin/users/${id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ isEnabled }),
+        });
+        fetchUsers();
+    } catch (error) {
+        console.error(`Error toggling user status for ID ${id}:`, error);
+    }
+}
+
+// Update user password
+async function updateUserPassword(id) {
+    const newPassword = prompt('Enter new password:');
+    if (!newPassword) return;
+
+    try {
+        await fetch(`/admin/users/${id}/password`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password: newPassword }),
+        });
+        fetchUsers();
+    } catch (error) {
+        console.error(`Error updating password for user ID ${id}:`, error);
+    }
+}
+
+// Fetch and display questions
+async function fetchQuestions() {
+    await fetchData('/admin/questions', 'questions-table-body', question => `
+        <tr>
+            <td>${question.question}</td>
+            <td>${question.category}</td>
+            <td>${question.options[question.correctAnswer]}</td>
+        </tr>
+    `);
+}
+
+// Add a question
+document.getElementById('add-question-form').addEventListener('submit', async event => {
+    event.preventDefault();
+    const question = document.getElementById('question').value;
+    const options = [
+        document.getElementById('option1').value,
+        document.getElementById('option2').value,
+        document.getElementById('option3').value,
+        document.getElementById('option4').value,
+    ];
+    const correctAnswer = parseInt(document.getElementById('correct-answer').value, 10);
+    const category = document.getElementById('category').value;
+
+    try {
+        await fetch('/admin/questions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ question, options, correctAnswer, category }),
+        });
+        document.getElementById('add-question-form').reset(); // Clear the form
+        fetchQuestions(); // Refresh questions list
+    } catch (error) {
+        console.error('Error adding question:', error);
+    }
+});
+
+// Manage Staff Section
+async function fetchStaff() {
+    await fetchData('/admin/staff', 'staff-table-body', staff => `
+        <tr>
+            <td>${staff.username}</td>
+            <td>${staff.userId}</td>
+            <td>
+                <button onclick="viewStaffRecord('${staff._id}')">View Record</button>
+            </td>
+        </tr>
+    `);
+}
+
+async function addStaff(event) {
+    event.preventDefault();
+    const username = document.getElementById('new-staff-username').value;
+    const userId = document.getElementById('new-staff-id').value;
+    const role = document.getElementById('new-staff-role').value;
+    const comments = document.getElementById('new-staff-comments').value;
+
+    try {
+        await fetch('/admin/staff', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, userId, role, comments }),
+        });
+        fetchStaff();
+    } catch (error) {
+        console.error('Error adding staff:', error);
+    }
+}
+
+async function viewStaffRecord(id) {
+    const staff = await fetch(`/admin/staff/${id}`).then(res => res.json());
+    document.getElementById('record-username').textContent = staff.username;
+    document.getElementById('record-userid').textContent = staff.userId;
+    document.getElementById('record-date-hired').textContent = new Date(staff.dateHired).toLocaleDateString();
+    document.getElementById('record-role').textContent = staff.role;
+    document.getElementById('record-comments').textContent = staff.comments;
+    document.getElementById('disciplinary-records').innerHTML = staff.disciplinaryRecords.map(record => `
+        <p><strong>${record.type}</strong>: ${record.comment} (${new Date(record.date).toLocaleDateString()})</p>
+    `).join('');
+    showSubSection('staff-record');
+}
+
+// Initialize and fetch data
+function initialize() {
+    showSection('dashboard'); // Default section
+    fetchTrialCodes();
+    fetchUsers();
+    fetchQuestions();
+    fetchStaff();
+}
+
+// Call initialize on page load
+window.onload = initialize;
