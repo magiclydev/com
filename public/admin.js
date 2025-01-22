@@ -186,7 +186,52 @@ document.getElementById('add-question-form').addEventListener('submit', async ev
     } catch (error) {
         console.error('Error adding question:', error);
     }
-}); // <-- Missing closing parenthesis added here
+});
+
+// Manage Staff Section
+async function fetchStaff() {
+    await fetchData('/admin/staff', 'staff-table-body', staff => `
+        <tr>
+            <td>${staff.username}</td>
+            <td>${staff.userId}</td>
+            <td>
+                <button onclick="viewStaffRecord('${staff._id}')">View Record</button>
+            </td>
+        </tr>
+    `);
+}
+
+async function addStaff(event) {
+    event.preventDefault();
+    const username = document.getElementById('new-staff-username').value;
+    const userId = document.getElementById('new-staff-id').value;
+    const role = document.getElementById('new-staff-role').value;
+    const comments = document.getElementById('new-staff-comments').value;
+
+    try {
+        await fetch('/admin/staff', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, userId, role, comments }),
+        });
+        fetchStaff();
+    } catch (error) {
+        console.error('Error adding staff:', error);
+    }
+}
+
+async function viewStaffRecord(id) {
+    const staff = await fetch(`/admin/staff/${id}`).then(res => res.json());
+    document.getElementById('record-username').textContent = staff.username;
+    document.getElementById('record-userid').textContent = staff.userId;
+    document.getElementById('record-date-hired').textContent = new Date(staff.dateHired).toLocaleDateString();
+    document.getElementById('record-role').textContent = staff.role;
+    document.getElementById('record-comments').textContent = staff.comments;
+    document.getElementById('disciplinary-records').innerHTML = staff.disciplinaryRecords.map(record => `
+        <p><strong>${record.type}</strong>: ${record.comment} (${new Date(record.date).toLocaleDateString()})</p>
+    `).join('');
+    showSubSection('staff-record');
+}
 
 // Initialize and fetch data
 function initialize() {
@@ -194,6 +239,7 @@ function initialize() {
     fetchTrialCodes();
     fetchUsers();
     fetchQuestions();
+    fetchStaff();
 }
 
 // Call initialize on page load
